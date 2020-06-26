@@ -1,8 +1,8 @@
 <?php
 
-class links {
+class Links {
 
-    
+
 
 
     /*private static $clientFiles = "client_files/";

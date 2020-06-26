@@ -1,12 +1,30 @@
 <?php
 
-class miscUtils {
-	public static function setAlert($flavor, $message) {
+class MiscUtils {
+
+    public static function FormatBigNumber($num)
+    {
+        if ($num > 1_000_000)
+        {
+            $num /= 1_000_000;
+            $num = number_format($num, 1, '.', ' ')." M";
+        }
+        else if ($num > 1000)
+        {
+            $num /= 1000;
+            $num = number_format($num, 1, '.', ' ')." k";
+        }
+        
+        return $num;
+    }
+
+
+	/*public static function setAlert($flavor, $message) {
 		$_GET['alert'] = $flavor;
 		$_GET['message'] = $message;
-	}
+	}*/
 
-	public static function jobStateToLithuanian($state) {
+	/*public static function jobStateToLithuanian($state) {
 		switch ($state) {
 			case 'unstarted':
 				return 'Nepradėtas';
@@ -21,27 +39,27 @@ class miscUtils {
 				return 'Pabaigtas';
 				break;
 		}
-	}
+	}*/
 
-	public static function roleLevelToLithuanian($level) {
+	/*public static function roleLevelToLithuanian($level) {
 		if ($level === 'user')
 			return 'vartotojas';
 		else if ($level === 'manager')
 			return 'valdytojas';
 		else if ($level === 'admin')
 			return 'administratorius';
-	}
+	}*/
 
-	public static function roleLevelToLithuanianWithIcon($level) {
+	/*public static function roleLevelToLithuanianWithIcon($level) {
 		if ($level === 'user')
 			return 'Vartotojas '.printer::glyphGet('user');
 		else if ($level === 'manager')
 			return 'Valdytojas '.printer::glyphGet('user-astronaut');
 		else if ($level === 'admin')
 			return 'Administratorius '.printer::glyphGet('street-view');
-	}
+	}*/
 
-	public static function checkPasswordStrength($password) {
+	/*public static function checkPasswordStrength($password) {
 		$errors = [];
 
 		if (strlen($password) < 8)
@@ -57,7 +75,7 @@ class miscUtils {
 			return true;
 		else 
 			return $errors;
-	}
+	}*/
 }
 
 ?>

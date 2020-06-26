@@ -43,7 +43,13 @@
 	$action = '';
 	if(isset($_GET['action'])) {
 		$action = mysql::escape($_GET['action']);
-	}
+    }
+    
+    if(empty($module) || empty($action))
+    {
+        header("Location: ./?module=countries&action=list");
+        die();
+    }
 		
 	$actionFile = "";
 	if(!empty($module) && !empty($action)) {
