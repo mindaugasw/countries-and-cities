@@ -1,13 +1,16 @@
 #main-wrapper {
 	margin: 30px auto 0px auto;
     max-width: 90%;
-    text-align: center;
+    /* text-align: center; */
 }
 
 .table {
     border: 1px solid #dee2e6;
 }
 
+.details-table th {
+    padding-right: 10px;
+}
 
 /* --- ALERTS / TOAST MESSAGES --- */
 /*.alert {

@@ -1,8 +1,25 @@
 <?php
 
-class Links {
+class Router {
 
+    /**
+     * Creates a clickable link for specified action, e.g. ./module=countries&action=details&id=5
+     */
+    public static function Link($module, $action, $id = NULL)
+    {
+        $a = "./?module=$module&action=$action";
 
+        if ($id !== NULL)
+            $a .= "&id=$id";
+        
+        return $a;
+    }
+
+    public static function Redirect($module, $action, $id = NULL)
+    {
+        header("Location: ".Router::Link($module, $action, $id));
+        die();
+    }
 
 
     /*private static $clientFiles = "client_files/";

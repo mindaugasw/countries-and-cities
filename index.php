@@ -1,36 +1,18 @@
 <?php
-	include 'config-default.php';
+    include 'config-default.php';
+    
+    // Load utils classes
 	foreach (glob("utils/*.php") as $filename)
 		include $filename;
 
+    // Load repositories
 	foreach (glob("repositories/*.php") as $filename)
 		include $filename;
 
     if (!isset($_SESSION)) 
         session_start();
 
-	/*if (!isset($_SESSION['email']) || !isset($_SESSION['rolelevel'])) { // NOT LOGGED IN - forward to login page
-		if (isset($_GET['module']) && $_GET['module'] == 'login' && isset($_GET['action']) && $_GET['action'] == 'register')
-		{
-			 // Not logged in, but going to registration page
-		} else {
-			$_GET['module'] = 'login';
-			$_GET['action'] = 'log_in';
-		}
-	}*/
-	
-	// Set default pages
-	/*if (!isset($_GET['module']) || !isset($_GET['action'])) {
-		$_GET['module'] = 'jobs';
-		if ($_SESSION['rolelevel'] === 'user') {
-			$_GET['action'] = 'all_untaken_list';
-		} else if ($_SESSION['rolelevel'] === 'manager') {
-			$_GET['action'] = 'my_manager_list';
-		} else if ($_SESSION['rolelevel'] === 'admin') {
-			$_GET['action'] = 'all_admin_list';
-		}
-	}*/
-
+    // Routing
 	$module = '';
 	if(isset($_GET['module'])) {
 		$module = mysql::escape($_GET['module']);
@@ -48,10 +30,10 @@
     
     if(empty($module) || empty($action))
     {
-        header("Location: ./?module=countries&action=list");
-        die();
+        Router::Redirect("countries", "list");
     }
-		
+        
+    // Load action file
 	$actionFile = "";
 	if(!empty($module) && !empty($action)) {
 		$actionFile = "controls/{$module}/{$action}.php";

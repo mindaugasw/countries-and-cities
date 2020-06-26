@@ -22,7 +22,7 @@
 		
 		<!-- Custom JS/CSS -->
         <link rel="stylesheet" href="public/style.css">
-		<!-- <script src="?php echo makeLink::js('misc.js')?>"></script> -->
+		<script src="public/main.js"></script>
 		<!-- <link rel="stylesheet" href="?php echo makeLink::css('style.css')?>"> -->
 		<!-- <link rel="stylesheet" href="?php echo makeLink::css('login.css')?>"> -->
 	</head>
