@@ -10,7 +10,7 @@ class printer {
 		return '<i class="fas fa-'.$glyph.'"></i> ';
 	}
 
-	public static function showAlert(/*$flavor, $message*/) {
+	/*public static function printAlert(/*$flavor, $message*) {
 		if (!isset($_GET['alert']) || !isset($_GET['message']))
 			return false;
 		$flavor = $_GET['alert'];
@@ -38,7 +38,7 @@ class printer {
 		echo "<div><button type='button' class='close' data-dismiss='alert' aria-label='Close'>
 				<span aria-hidden='true'>&times;</span>
 	  		  </button></div></div>";
-	}
+	}*/
 
 	public static function titleMain($title) {
 		echo '<h2>'.$title.'</h2><br>';

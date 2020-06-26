@@ -1,0 +1,27 @@
+<div>
+    <?php
+        /* To catch all alerts that were created while rendering this page,
+         * but still show them at the top of the page, they're added using JS. */
+
+        $toasts = ToastMessages::GetAll();
+        $text = "";
+
+        foreach ($toasts as $item)
+        {
+            $text .=
+                "<div class='alert alert-{$item['type']} alert-dismissible fade show' role='alert'>
+                    <div>{$item['message']}</div>
+                    <div>
+                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+				            <span aria-hidden='true'>&times;</span>
+                          </button>
+                    </div>
+                </div>";
+        }        
+    ?>
+
+    <script>
+        $("#alerts-wrapper").append(<?php echo json_encode($text); ?>);
+    </script>
+
+</div>

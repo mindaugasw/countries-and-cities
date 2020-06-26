@@ -3,10 +3,11 @@
 	foreach (glob("utils/*.php") as $filename)
 		include $filename;
 
-	foreach (glob("libraries/*.php") as $filename)
+	foreach (glob("repositories/*.php") as $filename)
 		include $filename;
 
-	session_start();
+    if (!isset($_SESSION)) 
+        session_start();
 
 	/*if (!isset($_SESSION['email']) || !isset($_SESSION['rolelevel'])) { // NOT LOGGED IN - forward to login page
 		if (isset($_GET['module']) && $_GET['module'] == 'login' && isset($_GET['action']) && $_GET['action'] == 'register')

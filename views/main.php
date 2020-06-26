@@ -27,13 +27,20 @@
 		<!-- <link rel="stylesheet" href="?php echo makeLink::css('login.css')?>"> -->
 	</head>
     <body>
-        <?php include 'common/header.php'; ?>
+        <?php include 'views/common/navbar.php'; ?>
+
         <div id="main-wrapper">
+
+            <div id="alerts-wrapper"></div>
+
             <?php
                 if (file_exists($actionFile))
-                    include $actionFile;
+                include $actionFile;
             ?>
         </div>
+
+        <?php include 'views/common/toastMessages.php'; ?>
+
         <!-- <div id="pageContent">
             ?php
 				if (isset($_GET['module']) && isset($_GET['module']) === 'login') {

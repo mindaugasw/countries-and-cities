@@ -2,8 +2,7 @@
 
 class MiscUtils {
 
-    public static function FormatBigNumber($num)
-    {
+    public static function FormatBigNumber($num) {
         if ($num > 1_000_000)
         {
             $num /= 1_000_000;
@@ -17,7 +16,6 @@ class MiscUtils {
         
         return $num;
     }
-
 
 	/*public static function setAlert($flavor, $message) {
 		$_GET['alert'] = $flavor;

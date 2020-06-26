@@ -12,6 +12,7 @@ $countries = Countries::GetAll();
 include 'views/common/filters.php';
 include 'views/countries/list.php';
 
+
 /*die();
 
 printer::showAlert();

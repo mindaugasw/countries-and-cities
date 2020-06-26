@@ -3,3 +3,13 @@
     max-width: 90%;
     text-align: center;
 }
+
+.table {
+    border: 1px solid #dee2e6;
+}
+
+
+/* --- ALERTS / TOAST MESSAGES --- */
+/*.alert {
+    text-align: left;
+}*/
