@@ -21,12 +21,12 @@
 		<!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script> -->
 		
 		<!-- Custom JS/CSS -->
-		<!-- <script src="<?php echo makeLink::js('misc.js')?>"></script> -->
-		<!-- <link rel="stylesheet" href="<?php echo makeLink::css('style.css')?>"> -->
-		<!-- <link rel="stylesheet" href="<?php echo makeLink::css('login.css')?>"> -->
+		<!-- <script src="?php echo makeLink::js('misc.js')?>"></script> -->
+		<!-- <link rel="stylesheet" href="?php echo makeLink::css('style.css')?>"> -->
+		<!-- <link rel="stylesheet" href="?php echo makeLink::css('login.css')?>"> -->
 	</head>
     <body>
-        <?php include "common/header.php"; ?>
+        <?php include 'common/header.php'; ?>
         <!-- <div id="pageContent">
             ?php
 				if (isset($_GET['module']) && isset($_GET['module']) === 'login') {
