@@ -4,8 +4,15 @@ class Router {
 
     /**
      * Creates a clickable link for specified action, e.g. ./module=countries&action=details&id=5
+     * Defaults to countries/list if no arguments are specified.
+     * 
+     * @param string $module
+     * @param string $action
+     * @param int $id
+     * 
+     * @return string
      */
-    public static function Link($module, $action, $id = NULL)
+    public static function Link($module = "countries", $action = "list", $id = NULL)
     {
         $a = "./?module=$module&action=$action";
 
@@ -15,11 +22,33 @@ class Router {
         return $a;
     }
 
-    public static function Redirect($module, $action, $id = NULL)
+    /**
+     * Redirects to specified action. Defaults to homepage if no module/action are specified.
+     * 
+     * @param string $module Action module. Defaults to 'countries'.
+     * @param string $action Action. Defaults to 'list'.
+     * @param int $id Item ID (optional).
+     * 
+     * @return exit
+     */
+    public static function Redirect($module = "countries", $action = "list", $id = NULL)
     {
         header("Location: ".Router::Link($module, $action, $id));
         die();
     }
+
+    /**
+     * Returns path for a view.
+     * 
+     * @param string $view View path, e.g. 'countries/form'.
+     * 
+     * @return string
+     */
+    public static function View($view)
+    {
+        return "views/$view.php";
+    }
+
 
 
     /*private static $clientFiles = "client_files/";

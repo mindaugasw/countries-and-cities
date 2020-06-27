@@ -4,15 +4,37 @@
     /* text-align: center; */
 }
 
-.table {
+/* --- LIST --- */
+.table-list {
     border: 1px solid #dee2e6;
 }
 
+/* --- DETAILS PAGE --- */
 .details-table th {
     padding-right: 10px;
 }
 
+/* --- FORM --- */
+form {
+    max-width: 500px;
+    margin: 0px auto;
+}
+
+.table-form th, .table-form td {
+    border: 0px;
+    /* padding-left: 0px; */
+    /* padding-right: 0px; */
+}
+
+form button[type=submit] {
+    width: 100%;
+}
+
+::-webkit-input-placeholder {
+    color: #cecece !important;
+}
 /* --- ALERTS / TOAST MESSAGES --- */
 /*.alert {
     text-align: left;
 }*/
+

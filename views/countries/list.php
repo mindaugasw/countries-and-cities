@@ -8,7 +8,7 @@
 
     <?php include 'views/common/filters.php'; ?>
     
-    <table class="table table-striped table-hover ">
+    <table class="table table-striped table-hover table-list">
     <thead>
         <tr>
             <th>ID</th>

@@ -6,9 +6,9 @@ class ToastMessages
     /**
      * Add toast message to be shown on next page load.
      * 
-     * @param $type Message type (color), one of the following: primary, secondary, success,
+     * @param string $type Message type (color), one of the following: primary, secondary, success,
      *        danger, warning, info, light, dark.
-     * @param $message Message text.
+     * @param string $message Message text.
      */
     public static function Add($type, $message)
     {
@@ -16,7 +16,7 @@ class ToastMessages
     }
 
     /**
-     * Returns all unread toast messages.
+     * Returns all toast messages and removes them from session (same messages will not be returned again).
      * 
      * @return mixed An array of messages. Each message is in format [type, message].
      */

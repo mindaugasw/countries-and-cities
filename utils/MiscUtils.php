@@ -2,6 +2,13 @@
 
 class MiscUtils {
 
+    /**
+     * Formats integer with M or k suffixes (for million or thousand).
+     * 
+     * @param int $num
+     * 
+     * @return string
+     */
     public static function FormatBigNumber($num) {
         if ($num > 1_000_000)
         {
