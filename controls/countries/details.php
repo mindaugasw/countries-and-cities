@@ -1,8 +1,10 @@
 <?php
 
-if (!ctype_digit($_GET['id']))
+$validator = new InputValidator;
+
+if (!$validator->IntegerCheck($_GET['id'], 'ID'))
 {
-    ToastMessages::Add("danger", $_GET['id']." is not a valid country ID!");
+    ToastMessages::Add("danger", $validator->GetErrors());
     Router::Redirect();
 }
 

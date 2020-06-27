@@ -37,7 +37,8 @@
                     <td>{$item['added_at']}</td>
                     <td>
                         <a href='".Router::Link("countries", "details", $item['id'])."'>View</a> |
-                        Edit | Delete</td>
+                        <a href='".Router::Link('countries', 'edit', $item['id'])."'>Edit</a> |
+                        Delete</td>
                     </tr>";
             }
         ?>

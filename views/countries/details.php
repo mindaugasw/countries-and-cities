@@ -30,7 +30,7 @@
 			<tr>
 				<th colspan=2>
                 <a href="<?php echo Router::Link('countries', 'list') ?>">Go back</a> |
-                Edit |
+                <a href="<?php echo Router::Link('countries', 'edit', $country['id']) ?>">Edit</a> |
                 <a href="#" onclick="showConfirmDialog(
                     '<?php echo 'Are you sure you want to delete '.$country['name'].' and all its cities?' ?>',
                     '<?php echo Router::Link('countries', 'delete', $country['id']) ?>')">Delete</a></th>
@@ -99,7 +99,7 @@
     <h4>Cities list</h4>
     <h4>Filter cities list</h4>
 
-    <?php include 'views/common/filters.php'; ?>
+    <?php /* include 'views/common/filters.php'; ?>
     
     <table class="table table-striped table-hover ">
     <thead>
@@ -133,5 +133,5 @@
             }
         ?>
     </tbody>
-    </table>
+    </table> */ ?>
 </div>

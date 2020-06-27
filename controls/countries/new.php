@@ -1,12 +1,11 @@
 <?php
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
     $name = $_POST['name'];
     $area = $_POST['area'];
     $population = $_POST['population'];
-    $phoneCode = $_POST['phoneCode'];
+    $phone_code = $_POST['phone_code'];
 
     $country =
     [
@@ -14,11 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         'name' => $name,
         'area' => $area,
         'population' => $population,
-        'phoneCode' => $phoneCode
+        'phone_code' => $phone_code
     ];
 
     $errors = '';
-    if (!InputValidator::ValidateCountry(NULL, $name, $area, $population, $phoneCode, $errors))
+    if (!InputValidator::ValidateCountry(NULL, $name, $area, $population, $phone_code, $errors))
     {
         ToastMessages::Add('danger', $errors);
         $infoExists = true; // for form prefilling
@@ -26,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     }
     else
     {
-        $id = Countries::Insert($name, $area, $population, $phoneCode);
+        $id = Countries::Insert($name, $area, $population, $phone_code);
         ToastMessages::Add('success', 'New country successfully added.');
         Router::Redirect('countries', 'details', $id);
     }

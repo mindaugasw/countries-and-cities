@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Usage:
- * TODO
+ * Various methods for input validation.
+ * Usage: run all needed validations and call GetErrors() afterwards to get error explanations.
  */
 class InputValidator
 {
@@ -25,19 +25,19 @@ class InputValidator
         if (ctype_space($input))
         {
             $s = false;
-            $this->errors[] = "$name must contain non-whitespace characters.";
+            $this->errors[] = "$name ($input) must contain non-whitespace characters.";
         }
 
         if (strlen($input) > $maxLen)
         {
             $s = false;
-            $this->errors[] = "$name lenght must not exceed $maxLen characters.";
+            $this->errors[] = "$name ($input) lenght must not exceed $maxLen characters.";
         }
 
         if ($input !== mysql::escape($input))
         {
             $s = false;
-            $this->errors[] = "$name contains characters that are not allowed.";
+            $this->errors[] = "$name ($input) contains characters that are not allowed.";
         }
 
         return $s;
@@ -58,12 +58,12 @@ class InputValidator
     {
         $s = true;
 
-        $input = filter_var($input, FILTER_VALIDATE_INT, ['options' => ['min_range' => $min, 'max_range' => $max]]);
+        $result = filter_var($input, FILTER_VALIDATE_INT, ['options' => ['min_range' => $min, 'max_range' => $max]]);
 
-        if ($input === false)
+        if ($result === false)
         {
             $s = false;
-            $this->errors[] = "$name is not a valid integer. It must be between $min and $max and contain only numeric characters.";
+            $this->errors[] = "$name ($input) is not a valid integer. It must be between $min and $max and contain only numeric characters.";
         }
 
         return $s;
@@ -81,16 +81,26 @@ class InputValidator
         return $e;
     }
 
+    /**
+     * Returns all errors as text and clears error list;
+     * 
+     * @return string Error messages.
+     */
+    public function GetErrorsText()
+    {
+        return implode('<br>', $this->GetErrors());
+    }
 
     /**
-     * Validates country fields. Returns false if at least one test failed and error explanations in $errors.
+     * Validates country fields and returns errors.
+     * Returns false if at least one test failed and error explanations in $errors.
      * 
      * @param int $id ID. Optional.
      * @param string $errors Output parameter for errors.
      * 
      * @return bool
      */
-    public static function ValidateCountry($id = NULL, $name, $area, $population, $phoneCode, &$errors)
+    public static function ValidateCountry($id = NULL, $name, $area, $population, $phone_code, &$errors)
     {
         $validator = new InputValidator;
 
@@ -100,18 +110,16 @@ class InputValidator
             $validator->StringCheck($name, 'Name'),
             $validator->IntegerCheck($area, 'Area'),
             $validator->IntegerCheck($population, 'Population'),
-            $validator->IntegerCheck($phoneCode, 'Phone code', 0, 999),
+            $validator->IntegerCheck($phone_code, 'Phone code', 0, 999),
         ];
 
         if (in_array(false, $results, true))
         {
-            // $xx = $validator->GetErrors();
             $errors = implode('<br>', $validator->GetErrors());
             return false;
         }
         else
             return true;
     }
-
 }
 ?>

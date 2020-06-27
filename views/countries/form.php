@@ -30,8 +30,8 @@
                                 <label for="inputId">ID</label>
                             </th>
                             <td>
-                                <input type="text" name="id" id="inputId" class="form-control" required disabled
-                                value="'.$country['id'].'">
+                                <input type="text" name="id" id="inputId" class="form-control"
+                                required readonly value="'.$country['id'].'">
                             </td>
                         </tr>';
                 }
@@ -73,11 +73,11 @@
                 <!-- PHONE CODE -->
                 <tr>
                     <th>
-                        <label for="inputPhoneCode">Phone code</label>
+                        <label for="inputPhone_code">Phone code</label>
                     </th>
                     <td>
-                        <input type="number" name="phoneCode" id="inputPhoneCode" class="form-control"
-                        required placeholder="370" <?php if ($infoExists) echo "value='{$country['phoneCode']}'" ?>>
+                        <input type="number" name="phone_code" id="inputPhone_code" class="form-control"
+                        required placeholder="370" <?php if ($infoExists) echo "value='{$country['phone_code']}'" ?>>
                     </td>
                 </tr>
 

@@ -37,11 +37,22 @@ class Countries {
      * 
      * @return int Newly inserted item ID.
      */
-    public static function Insert($name, $area, $population, $phoneCode)
+    public static function Insert($name, $area, $population, $phone_code)
     {
         $query = "INSERT INTO `country`(`name`, `area`, `population`, `phone_code`) VALUES
-                ('$name', $area, $population, $phoneCode)";
+                ('$name', $area, $population, $phone_code)";
         mysql::query($query);
         return mysql::getLastInsertedId();
+    }
+
+    /**
+     * Updates country.
+     */
+    public static function Update($id, $name, $area, $population, $phone_code)
+    {
+        $query = "UPDATE `country` SET
+                `name`='$name',`area`=$area,`population`=$population,`phone_code`=$phone_code
+                WHERE `id` = $id";
+        mysql::query($query);
     }
 }
