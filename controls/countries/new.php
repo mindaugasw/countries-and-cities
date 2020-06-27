@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     ];
 
     $errors = '';
-    if (!InputValidator::ValidateCountry(NULL, $name, $area, $population, $phone_code, $errors))
+    if (!Validators::ValidateCountry(NULL, $name, $area, $population, $phone_code, $errors))
     {
         ToastMessages::Add('danger', $errors);
         $infoExists = true; // for form prefilling

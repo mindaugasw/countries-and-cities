@@ -55,4 +55,13 @@ class Countries {
                 WHERE `id` = $id";
         mysql::query($query);
     }
+
+    /**
+     * Deletes country and all of its cities.
+     */
+    public static function Delete($id)
+    {
+        $query = "DELETE FROM `country` WHERE `id` = $id";
+        mysql::query($query);
+    }
 }

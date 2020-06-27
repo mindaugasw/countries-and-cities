@@ -1,7 +1,9 @@
 <?php
 
+// TODO DRY
 // Validate ID
 $validator = new InputValidator;
+// TODO check if id is set
 $id = $_SERVER['REQUEST_METHOD'] === 'POST' ? $_POST['id'] : $_GET['id'];
 if (!$validator->IntegerCheck($id, 'ID'))
 {
@@ -37,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     ];
 
     $errors = '';
-    if (!InputValidator::ValidateCountry($id, $name, $area, $population, $phone_code, $errors))
+    if (!Validators::ValidateCountry($id, $name, $area, $population, $phone_code, $errors))
     {
         ToastMessages::Add('danger', $errors);
         $infoExists = true; // for form prefilling

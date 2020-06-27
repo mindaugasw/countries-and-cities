@@ -90,9 +90,16 @@ class InputValidator
     {
         return implode('<br>', $this->GetErrors());
     }
+}
+
+/**
+ * Validations for specific data structures.
+ */
+class Validators
+{
 
     /**
-     * Validates country fields and returns errors.
+     * Validates country fields and returns errors text.
      * Returns false if at least one test failed and error explanations in $errors.
      * 
      * @param int $id ID. Optional.
@@ -115,11 +122,12 @@ class InputValidator
 
         if (in_array(false, $results, true))
         {
-            $errors = implode('<br>', $validator->GetErrors());
+            $errors = $validator->GetErrorsText();
             return false;
         }
         else
             return true;
     }
+
 }
 ?>

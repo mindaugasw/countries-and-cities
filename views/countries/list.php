@@ -38,7 +38,10 @@
                     <td>
                         <a href='".Router::Link("countries", "details", $item['id'])."'>View</a> |
                         <a href='".Router::Link('countries', 'edit', $item['id'])."'>Edit</a> |
-                        Delete</td>
+                        <a href=\"#\" onclick=\"showConfirmDialog(
+                            'Are you sure you want to delete {$item['name']} and all its cities?',
+                            '".Router::Link('countries', 'delete', $item['id'])."')\">Delete</a>
+                    </td>
                     </tr>";
             }
         ?>

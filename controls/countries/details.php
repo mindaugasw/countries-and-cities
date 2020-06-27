@@ -1,5 +1,6 @@
 <?php
 
+// TODO DRY
 $validator = new InputValidator;
 
 if (!$validator->IntegerCheck($_GET['id'], 'ID'))
