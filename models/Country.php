@@ -14,6 +14,7 @@ class Country extends Area
     }
 }
 
+
 class CountryRepository {
 
     /**
@@ -23,25 +24,27 @@ class CountryRepository {
      */
     public static function GetAll()
     {
-        // TODO pagination
         $query = "SELECT * FROM `country`";
         $data = mysql::select($query, 'Country');
         return $data;
     }
 
     /**
-     * Get all countries, with optional filtering, ordering, and pagination.
+     * Get countries, with optional filtering, ordering, and pagination.
      * If filtering is not needed, set those filters arguments to NULL.
+     * Additionally returns total items count in DB (used for pagination).
      * 
-     * @return mixed An array of countries.
+     * @return mixed An array of Country objects and total items count in DB. Format: [items, totalCount]
      */
-    public static function GetAllAdvanced(
+    public static function GetAdvanced(
         ?string $name, ?DateTime $dateFrom, ?DateTime $dateTo, // Filtering
-        string $sortField, bool $sortAsc // Sorting
-        // Pagination
+        string $sortField, bool $sortAsc, // Sorting
+        int $offset, int $limit // pagination
         )
     {
-        $query = "SELECT * FROM `country`";
+        // Function returns both data and total rows count
+        $selectData = "SELECT * FROM `country`";
+        $selectCount = "SELECT COUNT(`id`) AS 'count' FROM `country`";
 
         // Filtering
         $where = [];
@@ -52,15 +55,25 @@ class CountryRepository {
         if ($dateTo !== NULL)
             $where[] = '`added_at` <= "'.MiscUtils::Date($dateFrom).'"';
 
+        $whereQuery = '';
         if (!empty($where))
-        {
-            $query .= ' WHERE '.implode(' AND ', $where);
-        }
+            $whereQuery = ' WHERE '.implode(' AND ', $where);
 
         // Sorting
-        $query .= " ORDER BY `$sortField` ".($sortAsc ? 'ASC' : 'DESC');
+        $sortQuery = " ORDER BY `$sortField` ".($sortAsc ? 'ASC' : 'DESC');
+        
+        // Pagination
+        $pagesQuery = " LIMIT $offset,$limit";
+        
+        $dataQuery = $selectData.$whereQuery.$sortQuery.$pagesQuery;
+        $countQuery = $selectCount.$whereQuery;
 
-        $data = mysql::select($query, 'Country');
+        $data =
+        [
+            'items' => mysql::select($dataQuery, 'Country'),
+            'totalCount' => (int)mysql::select($countQuery)[0]['count']
+        ];
+        
         return $data;
     }
 

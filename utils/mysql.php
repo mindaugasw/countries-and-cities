@@ -18,7 +18,7 @@ class mysql {
     public static function connect() {
         // Try and connect to the database
 		if(!isset(self::$connection)) {
-            self::$connection = new mysqli(config::DB_SERVER, config::DB_USERNAME, config::DB_PASSWORD, config::DB_NAME);
+            self::$connection = new mysqli(Config::DB_SERVER, Config::DB_USERNAME, Config::DB_PASSWORD, Config::DB_NAME);
 			
 			if(self::$connection !== false) {
 				// try to set mysql connection character set to UTF-8

@@ -4,11 +4,11 @@ class HtmlPrinter
     {
         let html =
 `<span style="font-style: italic; color: #888888">Click on table headers to sort items</span>
-<table class="table table-striped table-hover table-list">
+<table class="table table-striped table-hover table-sm table-list">
     <thead>
         <tr>`
 
-        let headersList = // ['field name', 'nice text for printing']
+        let headersList = // Format: ['real_field_name', 'nice text for printing']
         [
             ['id', 'ID'],
             ['name', 'Name'],
@@ -27,16 +27,6 @@ class HtmlPrinter
             html += `</a></th>`;
         });
         html += `<th>Actions</th>`
-
-
-            // <th><a href="javascript:Countries.sort('id')" class="sort-th">ID</a></th>
-            // <th><a href="javascript:Countries.sort('name')" class="sort-th">Name</a></th>
-            // <th><a href="javascript:Countries.sort('area')" class="sort-th">Area</a></th>
-            // <th><a href="javascript:Countries.sort('population')" class="sort-th">Population</a></th>
-            // <th><a href="javascript:Countries.sort('phone_code')" class="sort-th">Phone code</a></th>
-            // <th><a href="javascript:Countries.sort('added_at')">Added at</a></th>
-            // <th>Actions</th>
-
         html += `</tr></thead><tbody>`;
 
         countries.forEach(c => { // c for country
@@ -56,18 +46,28 @@ class HtmlPrinter
         </tr>`
         });
 
-        // Add sorting indicator (triangle)
-        // let headerElements = Utils.getElement('.sort-th');
-        // headerElements.forEach(el => {
-        //     if (el.getElement('data-field-name') === Countries.currentSortField)
-        //     {
-        //         el.innerHTML += Countries.currentSortAsc ? ' ▲' : ' ▼';
-        //     }
-        // });
-
-        html += `</tbody></table>`;
+        html += `</tbody></table><div id="pagination-wrapper"></div>`;
         return html;
     }
 
+    static Pagination(pages)
+    {
+        let html =
+`<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">`
 
+        pages.forEach(p => {
+            html += `<li class="page-item ${p.active ? 'active' : ''}">
+                <a class="page-link" href="javascript:Countries.page(${p.number})">${p.name}</a></li>`;
+        });
+        
+        html += `</ul></nav>`;
+
+        return html;
+    }
+
+    static Loading()
+    {
+        return `<div class="loading-wrapper"><img src="public/imgs/loading.gif"></div>`;
+    }
 }

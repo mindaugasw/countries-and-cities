@@ -2,11 +2,12 @@ class Countries
 {
     static currentSortField = 'name';
     static currentSortAsc = true;
-
+    static pageNum = -1;
+    
     static updateList()
     {
         let wrapperEl = document.getElementById("countries-list-wrapper");
-        wrapperEl.innerHTML = `<img src="public/imgs/loading.gif">`;
+        wrapperEl.innerHTML = HtmlPrinter.Loading();
 
         let url = "./api.php?module=countries&action=list";
 
@@ -27,26 +28,37 @@ class Countries
         url += `&sort=${Countries.currentSortField}&sortAsc=${Countries.currentSortAsc}`;
 
         // Pagination
-
+        if (Countries.pageNum !== -1)
+            url += `&page=${Countries.pageNum}`;
 
         Utils.ajax(url, "GET", function(response) {
-            document.getElementById("countries-list-wrapper").innerHTML = HtmlPrinter.CountriesListTable(response);
+            Utils.getElement("#countries-list-wrapper").innerHTML = HtmlPrinter.CountriesListTable(response.items);
+            Utils.getElement("#pagination-wrapper").innerHTML = HtmlPrinter.Pagination(response.pages);
         });
     }
 
+    /**
+     * Updates sorting information ant then triggers list update.
+     */
     static sort(field)
     {
-        if (field === this.currentSortField)
+        if (field === Countries.currentSortField)
         {
-            this.currentSortAsc = !this.currentSortAsc;
+            Countries.currentSortAsc = !Countries.currentSortAsc;
         }
         else
         {
-            this.currentSortField = field;
-            this.currentSortAsc = true;
+            Countries.currentSortField = field;
+            Countries.currentSortAsc = true;
         }
+        Countries.pageNum = 1;
 
-        this.updateList();
-        // alert(this.currentSortField + ' ' + this.currentSortAsc);
+        Countries.updateList();
+    }
+
+    static page(newPage)
+    {
+        Countries.pageNum = newPage;
+        Countries.updateList();
     }
 }

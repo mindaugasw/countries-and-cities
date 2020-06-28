@@ -9,9 +9,12 @@
     <?php include Router::View('common/filters') ?>
     
     <div id="countries-list-wrapper">
-        <img src="public/imgs/loading.gif">
+        <div class="loading-wrapper">
+            <img src="public/imgs/loading.gif">
+        </div>
     </div>
     <script> document.addEventListener("DOMContentLoaded", Countries.updateList); </script>
+    
     <?php /* <table class="table table-striped table-hover table-list">
     <thead>
         <tr>

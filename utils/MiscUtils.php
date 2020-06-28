@@ -1,13 +1,13 @@
 <?php
 
-class MiscUtils {
+class MiscUtils
+{
 
     /**
      * Formats integer with M or k suffixes (for million or thousand).
      * 
-     * @param int $num
-     * 
-     * @return string
+     * @param int $num Number to format
+     * @return string Formatted string, e.g. 7.1 k
      */
     public static function FormatBigNumber($num)
     {
@@ -33,63 +33,37 @@ class MiscUtils {
         return $dateTime->format('yy-m-d');
     }
 
-	/*public static function setAlert($flavor, $message) {
-		$_GET['alert'] = $flavor;
-		$_GET['message'] = $message;
-	}*/
+    /**
+     * Creates array with Page objects, listing pages close to current one + first/last pages.
+     * 
+     * @param int $total Total items count in DB
+     * @param int $current Current page number
+     * @return mixed Array of Page objects, sorted by page number.
+     */
+    public static function ListPages(int $total, int $current)
+    {
+        $p = [];
+        $p[] = new Page($current, $current, true); // Current page
+        if ($current > 1)  // First page
+            $p[] = new Page(1, 'First', false);
 
-	/*public static function jobStateToLithuanian($state) {
-		switch ($state) {
-			case 'unstarted':
-				return 'Nepradėtas';
-				break;
-			case 'started':
-				return 'Pradėtas';
-				break;
-			case 'postponed':
-				return 'Atidėtas';
-				break;
-			case 'completed':
-				return 'Pabaigtas';
-				break;
-		}
-	}*/
+        $maxPages = ceil($total / Config::PAGE_SIZE);
+        if ($current < $maxPages)  // Last page
+            $p[] = new Page($maxPages, 'Last', false);
 
-	/*public static function roleLevelToLithuanian($level) {
-		if ($level === 'user')
-			return 'vartotojas';
-		else if ($level === 'manager')
-			return 'valdytojas';
-		else if ($level === 'admin')
-			return 'administratorius';
-	}*/
+        for ($i = $current - 1; $i > max(1, $current - 5); $i--) // Previous pages
+            $p[] = new Page($i, $i, false);
 
-	/*public static function roleLevelToLithuanianWithIcon($level) {
-		if ($level === 'user')
-			return 'Vartotojas '.printer::glyphGet('user');
-		else if ($level === 'manager')
-			return 'Valdytojas '.printer::glyphGet('user-astronaut');
-		else if ($level === 'admin')
-			return 'Administratorius '.printer::glyphGet('street-view');
-	}*/
+        for ($i = $current + 1; $i < min($maxPages, $current + 5); $i++) // Next pages
+            $p[] = new Page($i, $i, false);
 
-	/*public static function checkPasswordStrength($password) {
-		$errors = [];
+        usort($p, function($a, $b)
+        {
+            return $a->number > $b->number;
+        });
 
-		if (strlen($password) < 8)
-			$errors[] = "Per trumpas slaptažodis!";
-	
-		if (!preg_match("#[0-9]+#", $password))
-			$errors[] = "Slaptažodyje turi būti bent vienas skaičius.";
-	
-		if (!preg_match("#[a-zA-Z]+#", $password))
-			$errors[] = "Slaptažodyje turi būti bent viena raidė.";
-	
-		if (sizeof($errors) === 0)
-			return true;
-		else 
-			return $errors;
-	}*/
+        return $p;
+    }
 }
 
 ?>

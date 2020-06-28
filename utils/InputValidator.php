@@ -168,21 +168,22 @@ class Validators
      * 
      * Sets $sortAsc to boolean value.
      * 
-     * @param string $objectType Either 'Country' or 'City'
+     * @param string $objectType Either 'Country' or 'City'. Needed for sorting field validation.
      */
     public static function ValidateFilters(
         $name = NULL, &$dateFrom = NULL, &$dateTo = NULL,
-        $sortField = NULL, &$sortAsc = NULL, string $objectType,
-        &$errors)
+        $sortField, &$sortAsc, string $objectType,
+        $page, &$errors)
     {
         $validator = new InputValidator;
 
-        // Filters validation
+        // Filters+page validation
         $results = 
         [
             $name === NULL ? true : $validator->StringCheck($name, 'Name', 1000),
             $dateFrom === NULL ? true : $validator->DateCheck($dateFrom, 'Date from'),
             $dateTo === NULL ? true : $validator->DateCheck($dateTo, 'Date to'),
+            $page === NULL ? true : $validator->IntegerCheck($page, 'Page', 1)
         ];
 
         // Sorting validation
@@ -195,7 +196,7 @@ class Validators
             $validator->AddError("Unknown sorting field ($sortField).");
         }
 
-        if (strtolower($sortAsc) === 'true')
+        if (strtolower($sortAsc) === 'true' || strtolower($sortAsc) === '1')
             $sortAsc = true;
         else
             $sortAsc = false;

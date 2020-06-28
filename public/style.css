@@ -9,6 +9,10 @@
     border: 1px solid #dee2e6;
 }
 
+.loading-wrapper {
+    text-align: center;
+}
+
 /* --- DETAILS PAGE --- */
 .details-table th {
     padding-right: 10px;
@@ -38,3 +42,7 @@ form button[type=submit] {
     text-align: left;
 }*/
 
+/*#pagination-wrapper {
+    margin: 0px auto;
+    text-align: center;
+}*/

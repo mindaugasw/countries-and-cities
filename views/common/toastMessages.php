@@ -21,7 +21,9 @@
     ?>
 
     <script>
-        $("#alerts-wrapper").append(<?php echo json_encode($text); ?>);
+        // $("#alerts-wrapper").append(?php echo json_encode($text); ?>);
+        document.getElementById('alerts-wrapper').innerHTML = <?php echo json_encode($text)?>;
+
     </script>
 
 </div>
