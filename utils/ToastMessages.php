@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class for showing Toast messages to the user.
+ */
 class ToastMessages
 {
 

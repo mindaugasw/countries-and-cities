@@ -8,7 +8,11 @@
 
     <?php include 'views/common/filters.php'; ?>
     
-    <table class="table table-striped table-hover table-list">
+    <div id="countries-list-wrapper">
+        <img src="public/imgs/loading.gif">
+    </div>
+    <script> document.addEventListener("DOMContentLoaded", loadList); </script>
+    <?php /* <table class="table table-striped table-hover table-list">
     <thead>
         <tr>
             <th>ID</th>
@@ -16,7 +20,7 @@
             <th>Area</th>
             <th>Population</th>
             <th>Phone code</th>
-            <th>Created at</th>
+            <th>Added at</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -46,5 +50,5 @@
             }
         ?>
     </tbody>
-    </table>
+    </table> */ ?>
 </div>

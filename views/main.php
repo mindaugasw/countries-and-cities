@@ -22,7 +22,9 @@
 		
 		<!-- Custom JS/CSS -->
         <link rel="stylesheet" href="public/style.css">
+		<script src="public/HtmlPrinter.js"></script>
 		<script src="public/main.js"></script>
+		<script src="public/countries.js"></script>
 		<!-- <link rel="stylesheet" href="?php echo makeLink::css('style.css')?>"> -->
 		<!-- <link rel="stylesheet" href="?php echo makeLink::css('login.css')?>"> -->
 	</head>

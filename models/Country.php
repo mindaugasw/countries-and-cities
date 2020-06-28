@@ -1,6 +1,20 @@
 <?php
 
-class Countries {
+class Country extends Area
+{
+    public $phone_code;
+
+    /**
+     * Default constructor, used when fetching objects from DB.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->phone_code = (int)$this->phone_code;
+    }
+}
+
+class CountryRepository {
 
     /**
      * Get all countries.
@@ -11,7 +25,7 @@ class Countries {
     {
         // TODO pagination
         $query = "SELECT * FROM `country`";
-        $data = mysql::select($query);
+        $data = mysql::select($query, 'Country');
         return $data;
     }
 
@@ -24,11 +38,11 @@ class Countries {
     {
         $query = "SELECT * FROM `country` WHERE `id` = $id";
 
-        $data = mysql::select($query);
+        $data = mysql::select($query, 'Country');
         
         if (!empty($data))
             $data = $data[0];
-
+        
         return $data;
     }
 
@@ -37,31 +51,31 @@ class Countries {
      * 
      * @return int Newly inserted item ID.
      */
-    public static function Insert($name, $area, $population, $phone_code)
+    /*public static function Insert($name, $area, $population, $phone_code)
     {
         $query = "INSERT INTO `country`(`name`, `area`, `population`, `phone_code`) VALUES
                 ('$name', $area, $population, $phone_code)";
         mysql::query($query);
         return mysql::getLastInsertedId();
-    }
+    }*/
 
     /**
      * Updates country.
      */
-    public static function Update($id, $name, $area, $population, $phone_code)
+    /*public static function Update($id, $name, $area, $population, $phone_code)
     {
         $query = "UPDATE `country` SET
                 `name`='$name',`area`=$area,`population`=$population,`phone_code`=$phone_code
                 WHERE `id` = $id";
         mysql::query($query);
-    }
+    }*/
 
     /**
      * Deletes country and all of its cities.
      */
-    public static function Delete($id)
+    /*public static function Delete($id)
     {
         $query = "DELETE FROM `country` WHERE `id` = $id";
         mysql::query($query);
-    }
+    }*/
 }

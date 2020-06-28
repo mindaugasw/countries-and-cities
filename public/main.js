@@ -1,3 +1,7 @@
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
 // --- DELETE CONFIRMATION ---
 function showConfirmDialog(message, link) {
     var r = confirm(message);

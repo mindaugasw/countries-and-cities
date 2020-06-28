@@ -9,7 +9,7 @@ if (!$validator->IntegerCheck($_GET['id'], 'ID'))
     Router::Redirect();
 }
 
-$country = Countries::GetById($_GET['id']);
+$country = CountryRepository::GetById($_GET['id']);
 
 if (empty($country))
 {
@@ -19,6 +19,6 @@ if (empty($country))
 
 $cities = Cities::GetByCountry($_GET['id']);
 
-include 'views/countries/details.php';
+include Router::View('countries/details');
 
 ?>

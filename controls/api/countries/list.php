@@ -1,6 +1,4 @@
 <?php
 
 $countries = CountryRepository::GetAll();
-include 'views/countries/list.php';
-
-?>
+API::Json($countries);

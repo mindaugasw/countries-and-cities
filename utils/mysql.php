@@ -50,18 +50,24 @@ class mysql {
     }
 	
     /**
-     * Fetch rows from the database (SELECT query)
+     * Fetch rows from the database (SELECT query).
+     * If $className is set, returns as objects, or arrays otherwise.
      *
      * @param $query The query string
+     * @param $className Class name to convert to
      * @return bool False on failure / array Database rows on success
      */
-    public static function select($query) {
+    public static function select($query, string $className = NULL) {
         $rows = array();
         $result = mysql::query($query);
         if($result === false) {
             return false;
         }
-        while ($row = $result->fetch_assoc()) {
+
+        while ($row = $className === NULL ? 
+                        $result->fetch_assoc() :
+                        $result->fetch_object($className))
+            {
             $rows[] = $row;
         }
         return $rows;

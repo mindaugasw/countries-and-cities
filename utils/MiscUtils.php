@@ -9,7 +9,8 @@ class MiscUtils {
      * 
      * @return string
      */
-    public static function FormatBigNumber($num) {
+    public static function FormatBigNumber($num)
+    {
         if ($num > 1_000_000)
         {
             $num /= 1_000_000;
