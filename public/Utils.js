@@ -17,9 +17,17 @@ class Utils
         return str === null || str.match(/^\s*$/) !== null;
     }
 
-    static getById(id)
+    /**
+     * Get element by id or multiple elements by class name. Accepts CSS-style selectors, #id_name or .class_name
+     */
+    static getElement(selector)
     {
-        return document.getElementById(id);
+        let s2 = selector.substr(1);
+
+        if (selector[0] === '#')
+            return document.getElementById(s2);
+        if (selector[0] === '.')
+            return document.getElementsByClassName(s2);
     }
 
     static addToastMessage(type, message)

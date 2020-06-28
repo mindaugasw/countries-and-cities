@@ -2,16 +2,16 @@
     <h2>Countries list</h2>
 
     <!-- TODO link is currently full page width -->
-    <a href="<?php echo Router::Link("countries", "new") ?>"><h4>Add new country</h4></a>
+    <a href="<?php echo Router::Link("countries", "new") ?>"><h5>Add new country</h5></a>
     
-    <h4>Filter countries list</h4>
+    <h5>Filter countries list</h5>
 
-    <?php include 'views/common/filters.php'; ?>
+    <?php include Router::View('common/filters') ?>
     
     <div id="countries-list-wrapper">
         <img src="public/imgs/loading.gif">
     </div>
-    <script> document.addEventListener("DOMContentLoaded", loadList); </script>
+    <script> document.addEventListener("DOMContentLoaded", Countries.updateList); </script>
     <?php /* <table class="table table-striped table-hover table-list">
     <thead>
         <tr>

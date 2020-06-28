@@ -31,12 +31,13 @@ class CountryRepository {
 
     /**
      * Get all countries, with optional filtering, ordering, and pagination.
+     * If filtering is not needed, set those filters arguments to NULL.
      * 
      * @return mixed An array of countries.
      */
     public static function GetAllAdvanced(
-        ?string $name = NULL, ?DateTime $dateFrom = NULL, ?DateTime $dateTo = NULL // Filtering
-        // Ordering
+        ?string $name, ?DateTime $dateFrom, ?DateTime $dateTo, // Filtering
+        string $sortField, bool $sortAsc // Sorting
         // Pagination
         )
     {
@@ -55,6 +56,9 @@ class CountryRepository {
         {
             $query .= ' WHERE '.implode(' AND ', $where);
         }
+
+        // Sorting
+        $query .= " ORDER BY `$sortField` ".($sortAsc ? 'ASC' : 'DESC');
 
         $data = mysql::select($query, 'Country');
         return $data;

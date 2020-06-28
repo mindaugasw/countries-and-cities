@@ -162,16 +162,44 @@ class Validators
             return true;
     }
 
-    public static function ValidateFilters($name = NULL, &$dateFrom = NULL, &$dateTo = NULL, &$errors)
+    /**
+     * Validates countries/cities list filters, sorting, and pagination parameters.
+     * Returns errors text in $errors.
+     * 
+     * Sets $sortAsc to boolean value.
+     * 
+     * @param string $objectType Either 'Country' or 'City'
+     */
+    public static function ValidateFilters(
+        $name = NULL, &$dateFrom = NULL, &$dateTo = NULL,
+        $sortField = NULL, &$sortAsc = NULL, string $objectType,
+        &$errors)
     {
         $validator = new InputValidator;
 
+        // Filters validation
         $results = 
         [
             $name === NULL ? true : $validator->StringCheck($name, 'Name', 1000),
             $dateFrom === NULL ? true : $validator->DateCheck($dateFrom, 'Date from'),
-            $dateTo === NULL ? true : $validator->DateCheck($dateTo, 'Date to')
+            $dateTo === NULL ? true : $validator->DateCheck($dateTo, 'Date to'),
         ];
+
+        // Sorting validation
+        $sortFields = ['id', 'name', 'area', 'population', 'added_at', $objectType === 'Country' ? 'phone_code' : 'zip_code'];
+        if (in_array($sortField, $sortFields, true))
+            $results[] = true;
+        else
+        {
+            $results[] = false;
+            $validator->AddError("Unknown sorting field ($sortField).");
+        }
+
+        if (strtolower($sortAsc) === 'true')
+            $sortAsc = true;
+        else
+            $sortAsc = false;
+        
 
         if (in_array(false, $results, true))
         {
