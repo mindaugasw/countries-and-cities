@@ -22,6 +22,7 @@
 		
 		<!-- Custom JS/CSS -->
         <link rel="stylesheet" href="public/style.css">
+		<script src="public/Utils.js"></script>
 		<script src="public/HtmlPrinter.js"></script>
 		<script src="public/main.js"></script>
 		<script src="public/countries.js"></script>

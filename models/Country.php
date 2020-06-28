@@ -30,6 +30,38 @@ class CountryRepository {
     }
 
     /**
+     * Get all countries, with optional filtering, ordering, and pagination.
+     * 
+     * @return mixed An array of countries.
+     */
+    public static function GetAllAdvanced(
+        ?string $name = NULL, ?DateTime $dateFrom = NULL, ?DateTime $dateTo = NULL // Filtering
+        // Ordering
+        // Pagination
+        )
+    {
+        $query = "SELECT * FROM `country`";
+
+        // Filtering
+        $where = [];
+        if ($name !== NULL)
+            $where[] = "`name` LIKE \"%$name%\"";
+        if ($dateFrom !== NULL)
+            $where[] = '`added_at` >= "'.MiscUtils::Date($dateFrom).'"';
+        if ($dateTo !== NULL)
+            $where[] = '`added_at` <= "'.MiscUtils::Date($dateFrom).'"';
+
+        if (!empty($where))
+        {
+            $query .= ' WHERE '.implode(' AND ', $where);
+        }
+
+        $data = mysql::select($query, 'Country');
+        return $data;
+    }
+
+
+    /**
      * Get single country by its ID.
      * 
      * @return mixed A single country or empty array if not found.

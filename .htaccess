@@ -11,7 +11,7 @@
     Deny from all
 </Files>
 
-<Files ~ "controls|models|utils|views">
+<Files ~ "controls|models|views">
     <Limit GET POST PUT>
         Order Allow,Deny
         Deny from all

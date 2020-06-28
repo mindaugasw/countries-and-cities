@@ -25,6 +25,14 @@ class MiscUtils {
         return $num;
     }
 
+    /**
+     * Formats date to yyyy-mm-dd string.
+     */
+    public static function Date(DateTime $dateTime)
+    {
+        return $dateTime->format('yy-m-d');
+    }
+
 	/*public static function setAlert($flavor, $message) {
 		$_GET['alert'] = $flavor;
 		$_GET['message'] = $message;

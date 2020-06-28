@@ -13,11 +13,13 @@ function showConfirmDialog(message, link) {
 
 }
 
-function postRequest(link)
+/*function postRequest(link)
 {
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = link;
     document.body.appendChild(form);
     form.submit();
-}
+}*/
+
+

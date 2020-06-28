@@ -25,19 +25,19 @@ class InputValidator
         if (ctype_space($input))
         {
             $s = false;
-            $this->errors[] = "$name ($input) must contain non-whitespace characters.";
+            $this->AddError("$name ($input) must contain non-whitespace characters.");
         }
 
         if (strlen($input) > $maxLen)
         {
             $s = false;
-            $this->errors[] = "$name ($input) lenght must not exceed $maxLen characters.";
+            $this->AddError("$name ($input) lenght must not exceed $maxLen characters.");
         }
 
         if ($input !== mysql::escape($input))
         {
             $s = false;
-            $this->errors[] = "$name ($input) contains characters that are not allowed.";
+            $this->AddError("$name ($input) contains characters that are not allowed.");
         }
 
         return $s;
@@ -63,10 +63,43 @@ class InputValidator
         if ($result === false)
         {
             $s = false;
-            $this->errors[] = "$name ($input) is not a valid integer. It must be between $min and $max and contain only numeric characters.";
+            $this->AddError("$name ($input) is not a valid integer. It must be between $min and $max and contain only numeric characters.");
         }
 
         return $s;
+    }
+
+    /**
+     * Validates date input and sets $input to DateTime object.
+     * Returns false if date could not be parsed.
+     */
+    public function DateCheck(&$input, string $name)
+    {
+        $s = true;
+
+        $timeInput = strtotime($input);
+
+        if ($timeInput === false)
+        {
+            $s = false;
+            $this->AddError("$name is not a valid date.");
+        }
+        else
+        {
+            $dt = new DateTime();
+            $dt->setTimestamp($timeInput);
+            $input = $dt;
+        }
+
+        return $s;
+    }
+
+    /**
+     * Adds error message to the list.
+     */
+    public function AddError(string $message)
+    {
+        $this->errors[] = $message;
     }
 
     /**
@@ -118,6 +151,26 @@ class Validators
             $validator->IntegerCheck($area, 'Area'),
             $validator->IntegerCheck($population, 'Population'),
             $validator->IntegerCheck($phone_code, 'Phone code', 0, 999),
+        ];
+
+        if (in_array(false, $results, true))
+        {
+            $errors = $validator->GetErrorsText();
+            return false;
+        }
+        else
+            return true;
+    }
+
+    public static function ValidateFilters($name = NULL, &$dateFrom = NULL, &$dateTo = NULL, &$errors)
+    {
+        $validator = new InputValidator;
+
+        $results = 
+        [
+            $name === NULL ? true : $validator->StringCheck($name, 'Name', 1000),
+            $dateFrom === NULL ? true : $validator->DateCheck($dateFrom, 'Date from'),
+            $dateTo === NULL ? true : $validator->DateCheck($dateTo, 'Date to')
         ];
 
         if (in_array(false, $results, true))
