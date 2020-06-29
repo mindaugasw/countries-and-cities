@@ -6,7 +6,8 @@ class Config {
 	const DB_USERNAME  = 'root';
     const DB_PASSWORD  = '';
 
-    const PAGE_SIZE    = 15; // Number of items in one page
+    const COUNTRIES_PAGE_SIZE    = 15; // Number of items in one page
+    const CITIES_PAGE_SIZE    = 9;
 }
 
 ?>

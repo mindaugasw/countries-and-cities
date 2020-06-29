@@ -11,7 +11,8 @@ if (!$validator->IntegerCheck($id, 'ID'))
     Router::Redirect();
 }
 
-$country = Countries::GetById($id);
+$repo = new CountryRepository();
+$country = $repo->GetById($id);
 
 if (empty($country))
 {
@@ -29,14 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $population = $_POST['population'];
     $phone_code = $_POST['phone_code'];
 
-    $country =
+    /*$country =
     [
         'id' => $id,
         'name' => $name,
         'area' => $area,
         'population' => $population,
         'phone_code' => $phone_code
-    ];
+    ];*/
+    $country = new Country($id, $name, $area, $population, $phone_code); // for form prefilling
 
     $errors = '';
     if (!Validators::ValidateCountry($id, $name, $area, $population, $phone_code, $errors))
@@ -47,7 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     }
     else
     {
-        Countries::Update($id, $name, $area, $population, $phone_code);
+        $repo = new CountryRepository();
+        $repo->Update($country);// $id, $name, $area, $population, $phone_code);
         ToastMessages::Add('success', 'Country successfully updated.');
         Router::Redirect('countries', 'details', $id);
     }

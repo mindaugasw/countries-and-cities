@@ -1,6 +1,5 @@
 <?php
 
-$countries = CountryRepository::GetAll();
 include 'views/countries/list.php';
 
 ?>

@@ -10,7 +10,12 @@
     data-toggle="tooltip" data-placement="bottom" title="Show only areas added on or before this date">
 
     <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="Countries.updateList()">Filter</button>
-  </div>
+        <button class="btn btn-outline-secondary" type="button" onclick="Area.UpdateFilters()">Filter</button>
+    </div>
+
+    <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" onclick="Area.ClearFilters()"
+        data-toggle="tooltip" data-placement="bottom" title="Clear filters">X</button>
+    </div>
 </div>
 <br>

@@ -3,7 +3,7 @@
 class Startup
 {
     /**
-     * TODO
+     * Initiliazes scripts by loading all utility classes and models, sanitizing path variables.
      */
     public static function Start()
     {
@@ -14,9 +14,6 @@ class Startup
             include $filename;
 
         foreach (glob("models/*.php") as $filename)
-            include $filename;
-
-        foreach (glob("repositories/*.php") as $filename)
             include $filename;
 
         if (!isset($_SESSION)) 

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Used in results pagination
+ */
 class Page
 {
     public $number;

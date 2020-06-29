@@ -16,7 +16,8 @@ if (!$validator->IntegerCheck($id, 'ID'))
     Router::Redirect();
 }
 
-$country = Countries::GetById($id);
+$repo = new CountryRepository();
+$country = $repo->GetById($id);
 
 if (empty($country))
 {
@@ -24,6 +25,6 @@ if (empty($country))
     Router::Redirect();
 }
 
-Countries::Delete($id);
+$repo->Delete($id);
 ToastMessages::Add('success', 'Country successfully deleted.');
 Router::Redirect('countries', 'list');

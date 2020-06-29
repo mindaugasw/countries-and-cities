@@ -12,13 +12,15 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 		
 		<!-- Custom JS/CSS -->
-        <link rel="stylesheet" href="public/style.css">
-		<script src="public/Utils.js"></script>
-		<script src="public/HtmlPrinter.js"></script>
-		<script src="public/main.js"></script>
-		<script src="public/Countries.js"></script>
-		<!-- <link rel="stylesheet" href="?php echo makeLink::css('style.css')?>"> -->
-		<!-- <link rel="stylesheet" href="?php echo makeLink::css('login.css')?>"> -->
+        <link rel="stylesheet" href="<?php echo Router::Css('style') ?>">
+		<script src="<?php echo Router::Js('Utils') ?>"></script>
+		<script src="<?php echo Router::Js('HtmlPrinter') ?>"></script>
+		<!-- <script src="?php echo Router::Js('main') ?>"></script> -->
+        <script src="<?php echo Router::Js('Area') ?>"></script>
+        <script>
+            // Enable all tooltips
+            $(function () { $('[data-toggle="tooltip"]').tooltip() });
+        </script>
 	</head>
     <body>
         <?php include Router::View('common/navbar') ?>
@@ -28,7 +30,7 @@
 
             <?php
                 if (file_exists($actionFile))
-                include $actionFile;
+                    include $actionFile;
             ?>
         </div>
 

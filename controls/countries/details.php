@@ -9,7 +9,8 @@ if (!$validator->IntegerCheck($_GET['id'], 'ID'))
     Router::Redirect();
 }
 
-$country = CountryRepository::GetById($_GET['id']);
+$countryRepo = new CountryRepository();
+$country = $countryRepo->GetById($_GET['id']);
 
 if (empty($country))
 {
@@ -17,7 +18,8 @@ if (empty($country))
     Router::Redirect();
 }
 
-$cities = Cities::GetByCountry($_GET['id']);
+$cityRepo = new CityRepository();
+$cities = $cityRepo->GetByCountry($_GET['id']);
 
 include Router::View('countries/details');
 

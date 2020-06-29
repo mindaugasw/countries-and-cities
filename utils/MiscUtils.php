@@ -40,16 +40,16 @@ class MiscUtils
      * @param int $current Current page number
      * @return mixed Array of Page objects, sorted by page number.
      */
-    public static function ListPages(int $total, int $current)
+    public static function ListPages(int $total, int $current, int $pageSize)
     {
         $p = [];
         $p[] = new Page($current, $current, true); // Current page
         if ($current > 1)  // First page
             $p[] = new Page(1, 'First', false);
 
-        $maxPages = ceil($total / Config::PAGE_SIZE);
+        $maxPages = ceil($total / $pageSize);
         if ($current < $maxPages)  // Last page
-            $p[] = new Page($maxPages, 'Last', false);
+            $p[] = new Page($maxPages, "Last ($maxPages)", false);
 
         for ($i = $current - 1; $i > max(1, $current - 5); $i--) // Previous pages
             $p[] = new Page($i, $i, false);
@@ -63,6 +63,20 @@ class MiscUtils
         });
 
         return $p;
+    }
+
+    /**
+     * Return $data as JSON, set status code, and exit.
+     * 
+     * @param mixed $data Data to return. Will be JSON encoded.
+     * @param int $code Status code.
+     * @return void
+     */
+    public static function APIReturn($data, $code = 200)
+    {
+        echo json_encode($data);
+        http_response_code($code);
+        die();
     }
 }
 

@@ -31,7 +31,7 @@
                             </th>
                             <td>
                                 <input type="text" name="id" id="inputId" class="form-control"
-                                required readonly value="'.$country['id'].'">
+                                required readonly value="'.$country->id.'">
                             </td>
                         </tr>';
                 }
@@ -44,7 +44,7 @@
                     </th>
                     <td>
                         <input type="text" name="name" id="inputName" class="form-control"
-                        required <?php if ($infoExists) echo "value='{$country['name']}'" ?> >
+                        required <?php if ($infoExists) echo "value='{$country->name}'" ?> >
                     </td>
                 </tr>
 
@@ -55,7 +55,7 @@
                     </th>
                     <td>
                         <input type="number" name="area" id="inputArea" class="form-control"
-                        required min=0 step=1 placeholder="100" <?php if ($infoExists) echo "value='{$country['area']}'" ?>>
+                        required min=0 step=1 placeholder="100" <?php if ($infoExists) echo "value='{$country->area}'" ?>>
                     </td>
                 </tr>
 
@@ -66,7 +66,7 @@
                     </th>
                     <td>
                         <input type="number" name="population" id="inputPopulation" class="form-control"
-                        required min=0 step=1 placeholder="100" <?php if ($infoExists) echo "value='{$country['population']}'" ?>>
+                        required min=0 step=1 placeholder="100" <?php if ($infoExists) echo "value='{$country->population}'" ?>>
                     </td>
                 </tr>
 
@@ -77,7 +77,7 @@
                     </th>
                     <td>
                         <input type="number" name="phone_code" id="inputPhone_code" class="form-control"
-                        required placeholder="370" <?php if ($infoExists) echo "value='{$country['phone_code']}'" ?>>
+                        required placeholder="370" <?php if ($infoExists) echo "value='{$country->phone_code}'" ?>>
                     </td>
                 </tr>
 
@@ -90,11 +90,8 @@
                         <button type="submit" class="btn btn-primary">Save</button>
                     </td>
                 </tr>
+                
             </tbody>
         </table>
-
-
-
     </form>
-
 </div>

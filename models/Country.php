@@ -4,39 +4,37 @@ class Country extends Area
 {
     public $phone_code;
 
-    /**
-     * Default constructor, used when fetching objects from DB.
-     */
-    public function __construct()
+    public function __construct($id = NULL, $name = NULL, $area = NULL, $population = NULL, $phone_code = NULL)
     {
+        if ($id !== NULL)
+            $this->id = $id;
+        if ($name !== NULL)
+            $this->name = $name;
+        if ($area !== NULL)
+            $this->area = $area;
+        if ($population !== NULL)
+            $this->population = $population;
+        if ($phone_code !== NULL)
+            $this->phone_code = $phone_code;
+
         parent::__construct();
         $this->phone_code = (int)$this->phone_code;
     }
 }
 
 
-class CountryRepository {
+class CountryRepository extends AreaRepository {
+
+    protected $module = 'country';
 
     /**
-     * Get all countries.
-     * 
-     * @return mixed An array of countries.
-     */
-    public static function GetAll()
-    {
-        $query = "SELECT * FROM `country`";
-        $data = mysql::select($query, 'Country');
-        return $data;
-    }
-
-    /**
-     * Get countries, with optional filtering, ordering, and pagination.
-     * If filtering is not needed, set those filters arguments to NULL.
+     * Get areas array with optional filtering, ordering, and pagination.
+     * If filtering is not needed, set those filter arguments to NULL.
      * Additionally returns total items count in DB (used for pagination).
      * 
-     * @return mixed An array of Country objects and total items count in DB. Format: [items, totalCount]
+     * @return mixed An array of Area objects and total items count in DB. Format: [items, totalCount]
      */
-    public static function GetAdvanced(
+    public function GetAdvanced(
         ?string $name, ?DateTime $dateFrom, ?DateTime $dateTo, // Filtering
         string $sortField, bool $sortAsc, // Sorting
         int $offset, int $limit // pagination
@@ -79,52 +77,27 @@ class CountryRepository {
 
 
     /**
-     * Get single country by its ID.
-     * 
-     * @return mixed A single country or empty array if not found.
-     */
-    public static function GetById($id)
-    {
-        $query = "SELECT * FROM `country` WHERE `id` = $id";
-
-        $data = mysql::select($query, 'Country');
-        
-        if (!empty($data))
-            $data = $data[0];
-        
-        return $data;
-    }
-
-    /**
-     * Creates new country with specified data.
+     * Creates new Country with specified data.
      * 
      * @return int Newly inserted item ID.
      */
-    /*public static function Insert($name, $area, $population, $phone_code)
+    public function Insert($country) // $name, $area, $population, $phone_code)
     {
-        $query = "INSERT INTO `country`(`name`, `area`, `population`, `phone_code`) VALUES
-                ('$name', $area, $population, $phone_code)";
+        $query = "INSERT INTO `country`
+                (`name`, `area`, `population`, `phone_code`) VALUES
+                ('$country->name', $country->area, $country->population, $country->phone_code)";
         mysql::query($query);
         return mysql::getLastInsertedId();
-    }*/
+    }
 
     /**
-     * Updates country.
+     * Update country.
      */
-    /*public static function Update($id, $name, $area, $population, $phone_code)
+    public static function Update($country)// $id, $name, $area, $population, $phone_code)
     {
         $query = "UPDATE `country` SET
-                `name`='$name',`area`=$area,`population`=$population,`phone_code`=$phone_code
-                WHERE `id` = $id";
+                `name`='$country->name',`area`=$country->area,`population`=$country->population,`phone_code`=$country->phone_code
+                WHERE `id` = $country->id";
         mysql::query($query);
-    }*/
-
-    /**
-     * Deletes country and all of its cities.
-     */
-    /*public static function Delete($id)
-    {
-        $query = "DELETE FROM `country` WHERE `id` = $id";
-        mysql::query($query);
-    }*/
+    }
 }

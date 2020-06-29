@@ -35,3 +35,48 @@ abstract class Area
         $this->deleteLink = Router::Link('countries', 'delete', $this->id);
     }
 }
+
+
+abstract class AreaRepository
+{
+    protected $module = '-'; // Should be 'country' or 'city' (should be overriden by extending class).
+
+    /**
+     * Get all items
+     * 
+     * @return mixed An array of items
+     */
+    /*public function GetAll()
+    {
+        $query = "SELECT * FROM `{$this->module}`";
+        $data = mysql::select($query, ucfirst($this->module));
+        return $data;
+    }*/
+
+
+    /**
+     * Get single area by its ID.
+     * 
+     * @return mixed Area object or empty array if not found.
+     */
+    public function GetById(int $id)
+    {
+        $query = "SELECT * FROM `{$this->module}` WHERE `id` = $id";
+
+        $data = mysql::select($query, ucfirst($this->module));
+        
+        if (!empty($data))
+            $data = $data[0];
+        
+        return $data;
+    }
+
+    /**
+     * Delete area by id
+     */
+    public function Delete($id)
+    {
+        $query = "DELETE FROM `{$this->module}` WHERE `id` = $id";
+        mysql::query($query);
+    }
+}

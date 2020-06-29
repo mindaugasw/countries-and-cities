@@ -31,16 +31,11 @@
 				<th colspan=2>
                 <a href="<?php echo Router::Link('countries', 'list') ?>">Go back</a> |
                 <a href="<?php echo $country->editLink ?>">Edit</a> |
-                <a href="#" onclick="showConfirmDialog(
-                    '<?php echo 'Are you sure you want to delete '.$country->name.' and all its cities?' ?>',
-                    '<?php echo $country->deleteLink ?>')">Delete</a></th>
+                <a href="javascript:Utils.AreaDeleteConfirm(<?php echo "'$country->deleteLink', '$country->name'" ?>)">Delete</a></th>
 			</tr>
 		</tbody>
 	</table>
+    <br>
+    <?php include Router::View('cities/list') ?>
 
-
-    
-    <h4>Cities list</h4>
-    <h4>Filter cities list</h4>
-    
 </div>

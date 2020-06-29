@@ -2,19 +2,21 @@
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
+    // TODO DRY
     $name = $_POST['name'];
     $area = $_POST['area'];
     $population = $_POST['population'];
     $phone_code = $_POST['phone_code'];
 
-    $country =
+    /*$country =
     [
         'id' => -1,
         'name' => $name,
         'area' => $area,
         'population' => $population,
         'phone_code' => $phone_code
-    ];
+    ];*/
+    $country = new Country($id, $name, $area, $population, $phone_code); // for form prefilling
 
     $errors = '';
     if (!Validators::ValidateCountry(NULL, $name, $area, $population, $phone_code, $errors))
@@ -25,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     }
     else
     {
-        $id = Countries::Insert($name, $area, $population, $phone_code);
+        $repo = new CountryRepository();
+        $id = $repo->Insert($country);
         ToastMessages::Add('success', 'New country successfully added.');
         Router::Redirect('countries', 'details', $id);
     }
