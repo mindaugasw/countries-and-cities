@@ -13,7 +13,7 @@ class InputValidator
      * 
      * @param string $input Input to validate.
      * @param string $name Variable name (to show in error messages).
-     * @param int @maxLen Max string lenght for input.
+     * @param int @maxLen Max string length for input.
      * 
      * @return bool False if input is whitespace-only, too long, or contains
      * illegal characters. True if everything is ok.
@@ -31,7 +31,7 @@ class InputValidator
         if (strlen($input) > $maxLen)
         {
             $s = false;
-            $this->AddError("$name ($input) lenght must not exceed $maxLen characters.");
+            $this->AddError("$name ($input) length must not exceed $maxLen characters.");
         }
 
         if ($input !== mysql::escape($input))
@@ -437,4 +437,3 @@ class Validators
             return true;
     }
 }
-?>

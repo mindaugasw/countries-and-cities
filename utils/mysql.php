@@ -7,7 +7,7 @@
  * @see http://www.binpress.com/tutorial/using-php-with-mysql-the-right-way/17
  */
 class mysql {
-    // The database connection
+    
     protected static $connection;
 
 	/**
@@ -18,7 +18,7 @@ class mysql {
     public static function connect() {
         // Try and connect to the database
 		if(!isset(self::$connection)) {
-            self::$connection = new mysqli(Config::DB_SERVER, Config::DB_USERNAME, Config::DB_PASSWORD, Config::DB_NAME);
+            self::$connection = new mysqli(Config::$DB_SERVER, Config::$DB_USERNAME, Config::$DB_PASSWORD, Config::$DB_NAME);
 			
 			if(self::$connection !== false) {
 				// try to set mysql connection character set to UTF-8
@@ -112,5 +112,4 @@ class mysql {
 		$connection =  mysql::connect();
 		return mysqli_real_escape_string($connection, $field);
 	}
-	
 }

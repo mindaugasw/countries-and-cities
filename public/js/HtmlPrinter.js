@@ -11,6 +11,12 @@ class HtmlPrinter
      */
     static AreasListTable(areas, countriesData)
     {
+        if (areas.length === 0)
+        {
+            let html = `<span style="font-weight: bold">There are no items matching the criteria.</span>`;
+            return html;
+        }
+
         let html =
 `<span style="font-style: italic; color: #888888">Click on table headers to sort items</span>
 <table class="table table-striped table-hover table-sm table-list">

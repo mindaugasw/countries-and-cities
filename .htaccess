@@ -4,16 +4,31 @@
 # If using multiple languages in website use directive at following line
 #Options +Indexes +FollowSymlinks +Multiviews
 
-# Prevent site configuration and htaccess files from being accessed
-# directly from browser even PHP engine is stopped
-<Files ~ "config-default.php|.htaccess">
+
+# Prevent viewing of .htaccess and all php files, except index and api
+<Files ~ ".htaccess|.php">
     Order Deny,Allow 
     Deny from all
 </Files>
-
-<Files ~ "controls|models|views">
-    <Limit GET POST PUT>
-        Order Allow,Deny
-        Deny from all
-    </Limit>
+<Files ~ "index.php|api.php">
+    Order Deny,Allow 
+    Allow from all
 </Files>
+
+
+# Prevent directory listings
+Options All -Indexes
+
+
+#<Files ~ "controls|models|views">
+#    <Limit GET POST PUT>
+#        Order Allow,Deny
+#        Deny from all
+#    </Limit>
+#</Files>
+
+
+# Caching schema
+<FilesMatch "\.(jpg|png|gif|css|js)$">
+    Header set Cache-Control "public, max-age=3600"
+</FilesMatch>

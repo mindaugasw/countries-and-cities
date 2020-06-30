@@ -4,6 +4,9 @@ class Country extends Area
 {
     public $phone_code;
 
+    /**
+     * When fecthing object from DB, all properties are filled automatically (hence NULL default parameters).
+     */
     public function __construct($id = NULL, $name = NULL, $area = NULL, $population = NULL, $phone_code = NULL)
     {
         if ($id !== NULL)
@@ -55,7 +58,7 @@ class CountryRepository extends AreaRepository {
         if ($dateFrom !== NULL)
             $where[] = '`added_at` >= "'.MiscUtils::Date($dateFrom).'"';
         if ($dateTo !== NULL)
-            $where[] = '`added_at` <= "'.MiscUtils::Date($dateFrom).'"';
+            $where[] = '`added_at` <= "'.MiscUtils::Date($dateTo).'"';
 
         $whereQuery = '';
         if (!empty($where))
@@ -87,8 +90,8 @@ class CountryRepository extends AreaRepository {
     public function Insert(Country $country)
     {
         $query = "INSERT INTO `country`
-                (`name`, `area`, `population`, `phone_code`) VALUES
-                ('$country->name', $country->area, $country->population, $country->phone_code)";
+                (`name`, `area`, `population`, `phone_code`, `added_at`) VALUES
+                ('$country->name', $country->area, $country->population, $country->phone_code, '".MiscUtils::Date(new DateTime())."')";
         $result = mysql::query($query);
 
         if (!$result)

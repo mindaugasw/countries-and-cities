@@ -100,7 +100,7 @@ class CityRepository extends AreaRepository {
         if ($dateFrom !== NULL)
             $where[] = '`added_at` >= "'.MiscUtils::Date($dateFrom).'"';
         if ($dateTo !== NULL)
-            $where[] = '`added_at` <= "'.MiscUtils::Date($dateFrom).'"';
+            $where[] = '`added_at` <= "'.MiscUtils::Date($dateTo).'"';
         if ($country_id !== NULL)
             $where[] = "`country_id` = $country_id";
         
@@ -135,8 +135,8 @@ class CityRepository extends AreaRepository {
     public function Insert(City $city)
     {
         $query = "INSERT INTO `city`
-                (`name`, `area`, `population`, `zip_code`, `country_id`) VALUES
-                ('$city->name', $city->area, $city->population, $city->zip_code, $city->country_id)";
+                (`name`, `area`, `population`, `zip_code`, `country_id`, `added_at`) VALUES
+                ('$city->name', $city->area, $city->population, $city->zip_code, $city->country_id, '".MiscUtils::Date(new DateTime())."')";
         $result = mysql::query($query);
 
         if (!$result)

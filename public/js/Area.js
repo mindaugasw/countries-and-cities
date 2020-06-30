@@ -47,7 +47,9 @@ class Area
         Utils.Ajax(url, "GET", function(response) {
             Utils.GetElement("#areas-list-wrapper").innerHTML = HtmlPrinter.AreasListTable(response.items, 
                 Area.module === 'countries' ? true : false);
-            Utils.GetElement("#pagination-wrapper").innerHTML = HtmlPrinter.Pagination(response.pages);
+            let el = Utils.GetElement("#pagination-wrapper");
+            if (el !== null)
+                el.innerHTML = HtmlPrinter.Pagination(response.pages);
         });
     }
 
@@ -72,7 +74,7 @@ class Area
     }
 
     /**
-     * Update sorting information ant then triggers list update. If sort field is the same as currently
+     * Update sorting information ant then trigger list update. If sort field is the same as currently
      * set one, reverses sort direction.
      * 
      * @param {string} field Field by which to sort list, e.g. 'name' or 'population'

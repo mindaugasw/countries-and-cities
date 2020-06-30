@@ -15,7 +15,6 @@
         <link rel="stylesheet" href="<?php echo Router::Css('style') ?>">
 		<script src="<?php echo Router::Js('Utils') ?>"></script>
 		<script src="<?php echo Router::Js('HtmlPrinter') ?>"></script>
-		<!-- <script src="?php echo Router::Js('main') ?>"></script> -->
         <script src="<?php echo Router::Js('Area') ?>"></script>
         <script>
             // Enable all tooltips

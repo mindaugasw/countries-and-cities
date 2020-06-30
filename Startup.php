@@ -8,6 +8,7 @@ class Startup
     public static function Start()
     {
         include 'config-default.php';
+        Config::Initialize();
     
         // Load utils, models
         foreach (glob("utils/*.php") as $filename)
@@ -35,4 +36,3 @@ class Startup
         return [$module, $action, $id];
     }
 }
-?>
