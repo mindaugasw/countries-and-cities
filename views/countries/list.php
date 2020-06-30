@@ -1,8 +1,7 @@
 <div>
     <h2>Countries list</h2>
 
-    <!-- TODO link is currently full page width -->
-    <a href="<?php echo Router::Link("countries", "new") ?>"><h5>Add new country</h5></a>
+    <h5><a href="<?php echo Router::Link("countries", "new") ?>">Add new country</a></h5>
     
     <h5>Filter countries list</h5>
 

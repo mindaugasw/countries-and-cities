@@ -4,10 +4,10 @@
 class HtmlPrinter
 {
     /**
-     * Generates HTML for countries/cities list table
+     * Generate HTML for countries/cities list table
      * 
-     * @param {*} areas Countries or Cities array
-     * @param {boolean} countriesData Should be true if countries data passed. False otherwise (cities data passed).
+     * @param {*} areas Area objects array (Countries or Cities)
+     * @param {boolean} countriesData Should be true if countries array passed. False otherwise (cities passed).
      */
     static AreasListTable(areas, countriesData)
     {
@@ -60,7 +60,7 @@ class HtmlPrinter
     }
 
     /**
-     * Generates HTML for pagination links
+     * Generate HTML for pagination links
      * @param {*} pages Page objects array
      */
     static Pagination(pages)
@@ -80,7 +80,7 @@ class HtmlPrinter
     }
 
     /**
-     * Generates HTML for loading icon
+     * Generate HTML for loading icon
      */
     static Loading()
     {

@@ -4,12 +4,12 @@ class MiscUtils
 {
 
     /**
-     * Formats integer with M or k suffixes (for million or thousand).
+     * Format integer with M or k suffixes (for million or thousand).
      * 
      * @param int $num Number to format
      * @return string Formatted string, e.g. 7.1 k
      */
-    public static function FormatBigNumber($num)
+    public static function FormatBigNumber(int $num)
     {
         if ($num > 1_000_000)
         {
@@ -26,7 +26,7 @@ class MiscUtils
     }
 
     /**
-     * Formats date to yyyy-mm-dd string.
+     * Format date to yyyy-mm-dd string.
      */
     public static function Date(DateTime $dateTime)
     {
@@ -34,11 +34,12 @@ class MiscUtils
     }
 
     /**
-     * Creates array with Page objects, listing pages close to current one + first/last pages.
+     * Create array with Page objects.
+     * Lists pages close to current one + first/last pages.
      * 
      * @param int $total Total items count in DB
      * @param int $current Current page number
-     * @return mixed Array of Page objects, sorted by page number.
+     * @return mixed Page objects array, sorted by page number.
      */
     public static function ListPages(int $total, int $current, int $pageSize)
     {
@@ -70,9 +71,8 @@ class MiscUtils
      * 
      * @param mixed $data Data to return. Will be JSON encoded.
      * @param int $code Status code.
-     * @return void
      */
-    public static function APIReturn($data, $code = 200)
+    public static function APIReturn($data, int $code = 200)
     {
         echo json_encode($data);
         http_response_code($code);

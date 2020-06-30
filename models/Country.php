@@ -19,6 +19,10 @@ class Country extends Area
 
         parent::__construct();
         $this->phone_code = (int)$this->phone_code;
+
+        $this->viewLink = Router::Link('countries', 'details', $this->id);
+        $this->editLink = Router::Link('countries', 'edit', $this->id);
+        $this->deleteLink = Router::Link('countries', 'delete', $this->id);
     }
 }
 
@@ -28,11 +32,11 @@ class CountryRepository extends AreaRepository {
     protected $module = 'country';
 
     /**
-     * Get areas array with optional filtering, ordering, and pagination.
-     * If filtering is not needed, set those filter arguments to NULL.
+     * Get countries array with optional filtering, ordering, and pagination.
+     * If filtering is not needed, set those filter arguments to NULL ($name, $dateFrom, $dateTo).
      * Additionally returns total items count in DB (used for pagination).
      * 
-     * @return mixed An array of Area objects and total items count in DB. Format: [items, totalCount]
+     * @return mixed An array of Country objects and total items count in DB. Format: [items => [], totalCount => int]
      */
     public function GetAdvanced(
         ?string $name, ?DateTime $dateFrom, ?DateTime $dateTo, // Filtering
@@ -75,29 +79,35 @@ class CountryRepository extends AreaRepository {
         return $data;
     }
 
-
     /**
-     * Creates new Country with specified data.
+     * Create new Country
      * 
-     * @return int Newly inserted item ID.
+     * @return int Newly inserted item ID or false on failure
      */
-    public function Insert($country) // $name, $area, $population, $phone_code)
+    public function Insert(Country $country)
     {
         $query = "INSERT INTO `country`
                 (`name`, `area`, `population`, `phone_code`) VALUES
                 ('$country->name', $country->area, $country->population, $country->phone_code)";
-        mysql::query($query);
-        return mysql::getLastInsertedId();
+        $result = mysql::query($query);
+
+        if (!$result)
+            return false;
+        else
+            return mysql::getLastInsertedId();
     }
 
     /**
      * Update country.
+     * 
+     * @return bool True on success, false otherwise
      */
-    public static function Update($country)// $id, $name, $area, $population, $phone_code)
+    public static function Update($country)
     {
         $query = "UPDATE `country` SET
                 `name`='$country->name',`area`=$country->area,`population`=$country->population,`phone_code`=$country->phone_code
                 WHERE `id` = $country->id";
-        mysql::query($query);
+        $result = mysql::query($query);
+        return $result;
     }
 }

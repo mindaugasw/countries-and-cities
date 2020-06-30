@@ -3,7 +3,7 @@
  */
 class Area
 {
-    static module = '-'; // 'countries' or 'cities'. Module is set by inline script on country/city list views.
+    static module = '-'; // should be 'countries' or 'cities'. Module is set by inline script on country/city list views.
     static country_id = '-'; // used for cities list. Set by inline script on city list view.
 
     static currentSortField = 'name';
@@ -12,7 +12,7 @@ class Area
     
     /**
      * Fetches data from the server and updates countries/cities list.
-     * Takes into account filtering data, sorting, and pagination.
+     * Takes into account data filtering, sorting, and pagination.
      */
     static UpdateList()
     {
@@ -43,6 +43,7 @@ class Area
         if (Area.module === 'cities')
             url += `&id=${Area.country_id}`;
 
+        // Send request
         Utils.Ajax(url, "GET", function(response) {
             Utils.GetElement("#areas-list-wrapper").innerHTML = HtmlPrinter.AreasListTable(response.items, 
                 Area.module === 'countries' ? true : false);
@@ -60,7 +61,21 @@ class Area
     }
 
     /**
-     * Updates sorting information ant then triggers list update.
+     * Clears all filters and updates list
+     */
+    static ClearFilters()
+    {
+        Utils.GetElement('#filterName').value = '';
+        Utils.GetElement('#filterDateFrom').value = '';
+        Utils.GetElement('#filterDateTo').value = '';
+        Area.UpdateList();
+    }
+
+    /**
+     * Update sorting information ant then triggers list update. If sort field is the same as currently
+     * set one, reverses sort direction.
+     * 
+     * @param {string} field Field by which to sort list, e.g. 'name' or 'population'
      */
     static Sort(field)
     {
@@ -80,21 +95,12 @@ class Area
 
     /**
      * Loads new page
+     * 
+     * @param {int} newPage Page number
      */
     static Page(newPage)
     {
         Area.pageNum = newPage;
-        Area.UpdateList();
-    }
-
-    /**
-     * Clears all filters and updates list
-     */
-    static ClearFilters()
-    {
-        Utils.GetElement('#filterName').value = '';
-        Utils.GetElement('#filterDateFrom').value = '';
-        Utils.GetElement('#filterDateTo').value = '';
         Area.UpdateList();
     }
 }

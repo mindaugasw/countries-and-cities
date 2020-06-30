@@ -9,18 +9,18 @@ class InputValidator
     private $errors = []; // error messages
 
     /**
-     * Validates string input. Returns false if input is whitespace-only, too long, or contains
-     * illegal characters. Returns true if everything is ok.
+     * Validate string input.
      * 
      * @param string $input Input to validate.
      * @param string $name Variable name (to show in error messages).
      * @param int @maxLen Max string lenght for input.
      * 
-     * @return bool
+     * @return bool False if input is whitespace-only, too long, or contains
+     * illegal characters. True if everything is ok.
      */
     public function StringCheck($input, $name, $maxLen=255)
     {
-        $s = true; // s for successful
+        $s = true; // s for "successful"
 
         if (ctype_space($input))
         {
@@ -44,16 +44,15 @@ class InputValidator
     }
 
     /**
-     * Validates integer input. Returns false if input could not be converted to integer or if it is
-     * not in range [min, max].
-     * TODO mention that input is replaced
+     * Validate integer input. If successful, $input is converted to int.
      * 
-     * @param mixed $input Input to validate.
+     * @param mixed $input Input to validate. Will be converted to int on success.
      * @param string $name Variable name (to show in error messages).
      * @param int @min Minimum allowed value.
      * @param int @max Maximum allowed value.
      * 
-     * @return bool
+     * @return bool False if input could not be converted to integer or if it is
+     * not in range [min, max]. True otherwise.
      */
     public function IntegerCheck(&$input, $name, $min = 0, $max = PHP_INT_MAX)
     {
@@ -73,8 +72,11 @@ class InputValidator
     }
 
     /**
-     * Validates date input and sets $input to DateTime object. Returns true/false indicating if conversion
-     * was successful.
+     * Validate date input. On success $input is converted to DateTime object.
+     * 
+     * @param string $input Input to validate. On success will be converted to DateTime object
+     * @param string $name Variable name (to show in error messages)
+     * @return bool  True on success / false on failure
      */
     public function DateCheck(&$input, string $name)
     {
@@ -98,10 +100,12 @@ class InputValidator
     }
 
     /**
-     * Validates boolean input and converts $input to bool value. Returns true/false indicating if conversion
-     * was successful.
+     * Validate boolean input and convert $input to bool value. 
+     * 
+     * @param string $input Input to validate. Will be converted to bool.
+     * @return bool  Always true
      */
-    public function BoolCheck(&$input, string $name)
+    public function BoolCheck(&$input)
     {
         if (strtolower($input) === 'true' || strtolower($input) === '1')
             $input = true;
@@ -112,7 +116,7 @@ class InputValidator
     }
 
     /**
-     * Adds error message to the list.
+     * Add error message to the list
      */
     public function AddError(string $message)
     {
@@ -120,9 +124,9 @@ class InputValidator
     }
 
     /**
-     * Returns all errors and clears error list;
+     * Returns all errors and clears error list
      * 
-     * @return mixed Errors array.
+     * @return mixed Errors (strings) array
      */
     public function GetErrors()
     {
@@ -132,9 +136,9 @@ class InputValidator
     }
 
     /**
-     * Returns all errors as a single string and clears error list;
+     * Returns all errors as a single string and clears error list
      * 
-     * @return string Error messages as a single string.
+     * @return string Error messages as a single string
      */
     public function GetErrorsText()
     {
@@ -147,13 +151,33 @@ class InputValidator
  */
 class Validators
 {
-    static function ValidateArea($id = NULL, $name, $area, $population, &$errors)
+
+    /**
+     * Validates Area object (form data) before submitting to DB.
+     * Gets all data from POST parameters, validates them, and sets to reference parameters.
+     * 
+     * @return bool True if all validations passed. False otherwise. Errors array returned in $errors.
+     */
+    static function ValidateArea(&$id, bool $idNeeded, &$name, &$area, &$population, &$errors)
     {
         $validator = new InputValidator;
 
+        $id = NULL;
+        if (isset($_POST['id']))
+            $id = $_POST['id'];
+        $name = NULL;
+        if (isset($_POST['name']))
+            $name = $_POST['name'];
+        $area = NULL;
+        if (isset($_POST['area']))
+            $area = $_POST['area'];
+        $population = NULL;
+        if (isset($_POST['population']))
+            $population = $_POST['population'];
+
         $results =
         [
-            $id === NULL ? true : $validator->IntegerCheck($id, 'ID'),
+            $idNeeded ? $validator->IntegerCheck($id, 'ID') : true,
             $validator->StringCheck($name, 'Name'),
             $validator->IntegerCheck($area, 'Area'),
             $validator->IntegerCheck($population, 'Population'),
@@ -168,16 +192,40 @@ class Validators
             return true;
     }
 
-    public static function ValidateCity($id = NULL, $name, $area, $population, $zip_code, &$errors)
+    /**
+     * Validates Country object (form data) before submitting to DB.
+     * Gets all data from POST parameters, validates them, and sets to reference parameters.
+     * 
+     * @param bool $idNeeded Is $id validation needed? If true, checks if Country with given $id exists in DB.
+     * @return bool True if all validations passed. False otherwise. Errors array returned in $errors.
+     */
+    public static function ValidateCountry(&$id, bool $idNeeded, &$name, &$area, &$population, &$phone_code, &$errors)
     {
         $validator = new InputValidator;
+
+        $phone_code = NULL;
+        if (isset($_POST['phone_code']))
+            $phone_code = $_POST['phone_code'];
 
         $errorsTmp1 = [];
         $results =
         [
-            Validators::ValidateArea($id, $name, $area, $population, $errorsTmp1),
-            $validator->IntegerCheck($zip_code, 'ZIP code', 10000, 99999)
+            Validators::ValidateArea($id, $idNeeded, $name, $area, $population, $errorsTmp1),
+            $validator->IntegerCheck($phone_code, 'Phone code', 0, 999),
         ];
+
+        if ($idNeeded && is_int($id)) // Check if Country exists in DB
+        {
+            $repo = new CountryRepository();
+            $country = $repo->GetById($id);
+            if (empty($country))
+            {
+                $results[] = false;
+                $validator->AddError("Country with ID: $id does not exist in DB.");
+            }
+            else
+                $results[] = true;
+        }
 
         if (in_array(false, $results, true))
         {
@@ -190,24 +238,61 @@ class Validators
     }
 
     /**
-     * Validates country fields and returns errors text.
-     * Returns false if at least one test failed and error explanations in $errors.
+     * Validates City object (form data) before submitting to DB.
+     * Gets all data from POST parameters, validates them, and sets to reference parameters.
      * 
-     * @param int $id ID. Optional.
-     * @param string $errors Output parameter for errors.
-     * 
-     * @return bool
+     * @param bool $idNeeded Is $id validation needed? If true, checks if City with given $id exists in DB.
+     * @param mixed $country_id Country id that city is assigned to. Will check if Country exists in DB.
+     * @return bool True if all validations passed. False otherwise. Errors array returned in $errors.
      */
-    public static function ValidateCountry($id = NULL, $name, $area, $population, $phone_code, &$errors)
+    public static function ValidateCity(&$id, bool $idNeeded, &$name, &$area, &$population, &$zip_code, &$country_id, &$errors)
     {
         $validator = new InputValidator;
+
+        $zip_code = NULL;
+        if (isset($_POST['zip_code']))
+            $zip_code = $_POST['zip_code'];
+
+        $country_id = NULL;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['country_id']))
+            $country_id = $_POST['country_id'];
+        else if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_POST['id']))
+            $country_id = $_GET['id'];
 
         $errorsTmp1 = [];
         $results =
         [
-            Validators::ValidateArea($id, $name, $area, $population, $errorsTmp1),
-            $validator->IntegerCheck($phone_code, 'Phone code', 0, 999)
+            Validators::ValidateArea($id, $idNeeded, $name, $area, $population, $errorsTmp1),
+            $validator->IntegerCheck($zip_code, 'ZIP code', 10000, 999999),
+            $validator->IntegerCheck($country_id, 'Country ID'),
         ];
+
+        if ($idNeeded && is_int($id)) // Check if City exists in DB
+        {
+            $repo = new CityRepository();
+            $city = $repo->GetById($id);
+            if (empty($city))
+            {
+                $results[] = false;
+                $validator->AddError("City with ID: $id does not exist in DB.");
+            }
+            else
+                $results[] = true;
+        }
+
+
+        if (is_int($country_id)) // Check if Country exists in DB
+        {
+            $repo = new CountryRepository();
+            $country = $repo->GetById($country_id);
+            if (empty($country))
+            {
+                $results[] = false;
+                $validator->AddError("Country with ID: $country_id does not exist in DB.");
+            }
+            else
+                $results[] = true;
+        }
 
         if (in_array(false, $results, true))
         {
@@ -220,56 +305,11 @@ class Validators
     }
 
     /**
-     * Validates countries/cities list filters, sorting, and pagination parameters.
-     * Returns errors text in $errors.
+     * Validate filters, sorting, and pagination parameters.
+     * Converts some parameters to their appropriate types, e.g. dates to DateTime.
      * 
-     * Sets $sortAsc to boolean value.
-     * 
-     * @param string $objectType Either 'Country' or 'City'. Needed for sorting field validation.
+     * @return bool True if all validations passed. False otherwise. Errors array returned in $errors.
      */
-    /*static function ValidateFiltersOLD(
-        $name = NULL, &$dateFrom = NULL, &$dateTo = NULL,
-        $sortField, &$sortAsc, string $objectType,
-        $page, &$errors)
-    {
-        $validator = new InputValidator;
-
-        // Filters+page validation
-        $results = 
-        [
-            $name === NULL ? true : $validator->StringCheck($name, 'Name', 1000),
-            $dateFrom === NULL ? true : $validator->DateCheck($dateFrom, 'Date from'),
-            $dateTo === NULL ? true : $validator->DateCheck($dateTo, 'Date to'),
-            $page === NULL ? true : $validator->IntegerCheck($page, 'Page', 1)
-        ];
-
-        // Sorting validation // TODO
-        $sortFields = ['id', 'name', 'area', 'population', 'added_at', $objectType === 'Country' ? 'phone_code' : 'zip_code'];
-        if (in_array($sortField, $sortFields, true))
-            $results[] = true;
-        else
-        {
-            $results[] = false;
-            $validator->AddError("Unknown sorting field ($sortField).");
-        }
-
-        if (strtolower($sortAsc) === 'true' || strtolower($sortAsc) === '1')
-            $sortAsc = true;
-        else
-            $sortAsc = false;
-        
-
-        if (in_array(false, $results, true))
-        {
-            $errors = $validator->GetErrorsText();
-            return false;
-        }
-        else
-            return true;
-    }*/
-
-
-    // TODO docblock
     static function ValidateAreaFilters(&$name, &$dateFrom, &$dateTo, &$sortAsc, &$page, &$errors)
     {
         $validator = new InputValidator();
@@ -301,7 +341,7 @@ class Validators
             $name === NULL ? true : $validator->StringCheck($name, 'Name', 1000),
             $dateFrom === NULL ? true : $validator->DateCheck($dateFrom, 'Date from'),
             $dateTo === NULL ? true : $validator->DateCheck($dateTo, 'Date to'),
-            $validator->BoolCheck($sortAsc, 'Sort direction'),
+            $validator->BoolCheck($sortAsc),
             $validator->IntegerCheck($page, 'Page', 1),
         ];
 
@@ -314,6 +354,12 @@ class Validators
             return true;
     }
 
+    /**
+     * Validate filters, sorting, and pagination parameters.
+     * Converts some parameters to their appropriate types, e.g. dates to DateTime.
+     * 
+     * @return bool True if all validations passed. False otherwise. Errors array returned in $errors.
+     */
     public static function ValidateCountryFilters(&$name, &$dateFrom, &$dateTo, &$sortField, &$sortAsc, &$page, &$errors)
     {
         $validator = new InputValidator;
@@ -347,6 +393,12 @@ class Validators
             return true;
     }
 
+    /**
+     * Validate filters, sorting, and pagination parameters.
+     * Converts some parameters to their appropriate types, e.g. dates to DateTime.
+     * 
+     * @return bool True if all validations passed. False otherwise. Errors array returned in $errors.
+     */
     public static function ValidateCityFilters(&$name, &$dateFrom, &$dateTo, &$sortField, &$sortAsc, &$country_id, &$page, &$errors)
     {
         $validator = new InputValidator;

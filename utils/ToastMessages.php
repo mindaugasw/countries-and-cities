@@ -13,7 +13,7 @@ class ToastMessages
      *        danger, warning, info, light, dark.
      * @param string $message Message text.
      */
-    public static function Add($type, $message)
+    public static function Add(string $type, string $message)
     {
         $_SESSION['toasts'][] = ['type' => $type, 'message' => $message];
     }
@@ -21,7 +21,7 @@ class ToastMessages
     /**
      * Returns all toast messages and removes them from session (same messages will not be returned again).
      * 
-     * @return mixed An array of messages. Each message is in format [type, message].
+     * @return mixed An array of messages. Format: [[type, message], ...].
      */
     public static function GetAll()
     {

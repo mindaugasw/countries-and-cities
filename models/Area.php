@@ -19,7 +19,7 @@ abstract class Area
     public $deleteLink;
 
     /**
-     * Default constructor, used when fetching objects from DB.
+     * Default constructor used when fetching objects from DB (properties from DB are filled in automatically).
      */
     public function __construct()
     {
@@ -29,35 +29,30 @@ abstract class Area
 
         $this->areaNice = MiscUtils::FormatBigNumber($this->area);
         $this->populationNice = MiscUtils::FormatBigNumber($this->population);
-
-        $this->viewLink = Router::Link('countries', 'details', $this->id);
-        $this->editLink = Router::Link('countries', 'edit', $this->id);
-        $this->deleteLink = Router::Link('countries', 'delete', $this->id);
     }
 }
 
 
 abstract class AreaRepository
 {
-    protected $module = '-'; // Should be 'country' or 'city' (should be overriden by extending class).
+    protected $module = '-'; // Should be 'country' or 'city'
 
     /**
      * Get all items
      * 
-     * @return mixed An array of items
+     * @return mixed An array of Area objects
      */
-    /*public function GetAll()
+    public function GetAll()
     {
-        $query = "SELECT * FROM `{$this->module}`";
+        $query = "SELECT * FROM `{$this->module}` ORDER BY `name`";
         $data = mysql::select($query, ucfirst($this->module));
         return $data;
-    }*/
-
+    }
 
     /**
-     * Get single area by its ID.
+     * Get single area by ID
      * 
-     * @return mixed Area object or empty array if not found.
+     * @return mixed Area object or empty array if not found
      */
     public function GetById(int $id)
     {
@@ -73,10 +68,13 @@ abstract class AreaRepository
 
     /**
      * Delete area by id
+     * 
+     * @return bool True on success, false otherwise
      */
-    public function Delete($id)
+    public function Delete(int $id)
     {
         $query = "DELETE FROM `{$this->module}` WHERE `id` = $id";
-        mysql::query($query);
+        $result = mysql::query($query);
+        return $result;
     }
 }

@@ -3,13 +3,13 @@
 class Startup
 {
     /**
-     * Initiliazes scripts by loading all utility classes and models, sanitizing path variables.
+     * Load all utility classes and models, sanitize path variables.
      */
     public static function Start()
     {
         include 'config-default.php';
     
-        // Load utils, models, repositories
+        // Load utils, models
         foreach (glob("utils/*.php") as $filename)
             include $filename;
 
@@ -21,19 +21,16 @@ class Startup
 
         // Routing
         $module = '';
-        if(isset($_GET['module'])) {
+        if(isset($_GET['module']))
             $module = mysql::escape($_GET['module']);
-        }
         
         $action = '';
-        if(isset($_GET['action'])) {
+        if(isset($_GET['action']))
             $action = mysql::escape($_GET['action']);
-        }
 
         $id = '';
-        if(isset($_GET['id'])) {
+        if(isset($_GET['id']))
             $id = mysql::escape($_GET['id']);
-        }
 
         return [$module, $action, $id];
     }

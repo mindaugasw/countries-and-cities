@@ -1,5 +1,6 @@
 <?php
 
+// Validation
 $validator = new InputValidator();
 
 list($name, $dateFrom, $dateFrom, $dateTo, $sortField, $sortAsc, $country_id, $page) = NULL;
@@ -13,9 +14,9 @@ if (!Validators::ValidateCityFilters($name, $dateFrom, $dateTo, $sortField, $sor
 // Pagination
 $offset = Config::CITIES_PAGE_SIZE * ($page - 1);
 
+// Get data
 $repo = new CityRepository();
 $data = $repo->GetAdvanced($name, $dateFrom, $dateTo, $country_id, $sortField, $sortAsc, $offset, Config::CITIES_PAGE_SIZE);
-
 $data['pages'] = MiscUtils::ListPages($data['totalCount'], $page, Config::CITIES_PAGE_SIZE);
 
 MiscUtils::APIReturn($data);

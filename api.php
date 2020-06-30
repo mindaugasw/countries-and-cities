@@ -5,7 +5,7 @@
 
     $actionFile = "controls/api/{$module}/{$action}.php";
     if (empty($module) || empty($action) || !file_exists($actionFile))
-        MiscUtils::APIReturn(['errors'=>['Action could no be completed.']], 400);
+        MiscUtils::APIReturn(['errors'=>['Action could not be completed.']], 400);
 	
 	include $actionFile;
 ?>

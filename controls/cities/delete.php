@@ -15,18 +15,19 @@ if (!$validator->IntegerCheck($id, 'ID'))
     Router::Redirect();
 }
 
-$repo = new CountryRepository();
-$country = $repo->GetById($id);
+$repo = new CityRepository();
+$city = $repo->GetById($id);
 
-if (empty($country))
+if (empty($city))
 {
-    ToastMessages::Add("danger", "Could not find country with ID: $id!");
+    ToastMessages::Add("danger", "Could not find city with ID: $id!");
     Router::Redirect();
 }
 
 // Deletion
+$country_id = $city->country_id;
 if ($repo->Delete($id))
-    ToastMessages::Add('success', 'Country successfully deleted.');
+    ToastMessages::Add('success', 'City successfully deleted.');
 else
     ToastMessages::Add('danger', 'Could not complete action.');
-Router::Redirect('countries', 'list');
+Router::Redirect('countries', 'details', $country_id);

@@ -2,9 +2,6 @@ class Utils
 {
     /**
      * Make new Ajax request
-     * @param {string} url 
-     * @param {string} method 
-     * @param {*} callback 
      */
     static Ajax(url, method, callback)
     {
@@ -19,7 +16,7 @@ class Utils
     }
 
     /**
-     * Submits POST request on given link
+     * Submit POST request on given link
      * @param {string} link 
      */
     static PostRequest(link)
@@ -34,6 +31,7 @@ class Utils
     /**
      * Returns true if string is empty or consists only of whitespace characters,
      * @param {string} str String to check
+     * @return {bool}
      */
     static IsEmptyOrWhitespace(str)
     {
@@ -62,13 +60,12 @@ class Utils
     static AddToastMessage(type, message)
     {
         Utils.GetElement("#alerts-wrapper").innerHTML += HtmlPrinter.ToastMessage(type, message);
-        // alert(`${type} - ${message}`);
     }
 
     /**
-     * Show confirm dialog and perform callback function if user confirms.
+     * Show confirm dialog and perform callback function if user confirms
      * @param {string} message Text to show in the dialog
-     * @param {*} callback Function to call on user confirm
+     * @param {*} callback 
      */
     static ConfirmDialog(message, callback)
     {

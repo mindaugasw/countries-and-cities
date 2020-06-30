@@ -1,47 +1,17 @@
 <?php
 
-// TODO DRY
-// Validate ID
+// Validation
 $validator = new InputValidator;
-// TODO check if id is set
-$id = $_SERVER['REQUEST_METHOD'] === 'POST' ? $_POST['id'] : $_GET['id'];
-if (!$validator->IntegerCheck($id, 'ID'))
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') // POST
 {
-    ToastMessages::Add("danger", $validator->GetErrorsText());
-    Router::Redirect();
-}
-
-$repo = new CountryRepository();
-$country = $repo->GetById($id);
-
-if (empty($country))
-{
-    ToastMessages::Add("danger", "Could not find country with ID: $id!");
-    Router::Redirect();
-}
-
-
-// POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST')
-{
-    // $id = $_POST['id'];
-    $name = $_POST['name'];
-    $area = $_POST['area'];
-    $population = $_POST['population'];
-    $phone_code = $_POST['phone_code'];
-
-    /*$country =
-    [
-        'id' => $id,
-        'name' => $name,
-        'area' => $area,
-        'population' => $population,
-        'phone_code' => $phone_code
-    ];*/
-    $country = new Country($id, $name, $area, $population, $phone_code); // for form prefilling
-
+    list($id, $name, $area, $population, $phone_code) = NULL;
     $errors = '';
-    if (!Validators::ValidateCountry($id, $name, $area, $population, $phone_code, $errors))
+    $result = Validators::ValidateCountry($id, true, $name, $area, $population, $phone_code, $errors);
+
+    $country = new Country($id, $name, $area, $population, $phone_code);
+
+    if (!$result)
     {
         ToastMessages::Add('danger', $errors);
         $infoExists = true; // for form prefilling
@@ -49,14 +19,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     }
     else
     {
+        // Update data
         $repo = new CountryRepository();
-        $repo->Update($country);// $id, $name, $area, $population, $phone_code);
-        ToastMessages::Add('success', 'Country successfully updated.');
+        if ($repo->Update($country))
+            ToastMessages::Add('success', 'Country successfully updated.');
+        else
+            ToastMessages::Add('danger', 'Could not complete action.');
         Router::Redirect('countries', 'details', $id);
     }
 }
 else // GET
 {
+    if (!$validator->IntegerCheck($_GET['id'], 'ID'))
+    {
+        ToastMessages::Add("danger", $validator->GetErrorsText());
+        Router::Redirect();
+    }
+
+    // Get data
+    $repo = new CountryRepository(); // Check that country exists
+    $country = $repo->GetById($id);
+
+    if (empty($country))
+    {
+        ToastMessages::Add("danger", "Could not find country with ID: $id!");
+        Router::Redirect();
+    }
+
     $infoExists = true; // for form prefilling
     include Router::View('countries/form');
 }

@@ -1,6 +1,6 @@
 <?php
 
-// TODO DRY
+// Validation
 $validator = new InputValidator;
 
 if (!$validator->IntegerCheck($_GET['id'], 'ID'))
@@ -9,6 +9,7 @@ if (!$validator->IntegerCheck($_GET['id'], 'ID'))
     Router::Redirect();
 }
 
+// Get data
 $countryRepo = new CountryRepository();
 $country = $countryRepo->GetById($_GET['id']);
 
@@ -18,9 +19,7 @@ if (empty($country))
     Router::Redirect();
 }
 
-$cityRepo = new CityRepository();
+$cityRepo = new CityRepository(); // Get cities count in country
 $cities = $cityRepo->GetByCountry($_GET['id']);
 
 include Router::View('countries/details');
-
-?>
