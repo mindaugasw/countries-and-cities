@@ -14,9 +14,9 @@ class Config {
      */
     public static function Initialize()
     {
-        Config::$DB_SERVER   = '127.0.0.1';
-        Config::$DB_NAME     = 'countries_and_cities';
-        Config::$DB_USERNAME = 'root';
-        Config::$DB_PASSWORD = '';
+        Config::$DB_SERVER   = getenv('DB_HOST');
+        Config::$DB_NAME     = getenv('DB_NAME');
+        Config::$DB_USERNAME = getenv('DB_USERNAME');
+        Config::$DB_PASSWORD = getenv('DB_PASSWORD');
     }
 }
