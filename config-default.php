@@ -15,7 +15,7 @@ class Config {
     public static function Initialize()
     {
         Config::$DB_SERVER   = '127.0.0.1';
-        Config::$DB_NAME     = 'salys_ir_miestai';
+        Config::$DB_NAME     = 'countries_and_cities';
         Config::$DB_USERNAME = 'root';
         Config::$DB_PASSWORD = '';
     }
